@@ -16,7 +16,7 @@ CREATE TABLE department(
 );
 
 CREATE TABLE job_title(
-	job_title_id CHAR(4),
+	job_title_id CHAR(6),
     job_title VARCHAR(100) NOT NULL,
     department_name VARCHAR(100),
     primary key(job_title_id),
@@ -48,15 +48,14 @@ CREATE TABLE employee(
     birthday DATE NOT NULL,
     marital_status ENUM('Married', 'Single', 'Divorced') NOT NULL,
     supervisor CHAR(9),
-    job_title_id CHAR(5) NOT NULL,
+    job_title_id CHAR(6) NOT NULL,
     pay_grade VARCHAR(100) NOT NULL,
-    employment_status ENUM('Intern_Fulltime', 'Intern_Parttime', 'Contract_Fulltime', 'Contract_Parttime, Permanent, Freelance') NOT NULL,
+    employment_status ENUM('Intern_Fulltime', 'Intern_Parttime', 'Contract_Fulltime', 'Contract_Parttime', 'Permanent', 'Freelance') NOT NULL,
     branch_id CHAR(5) NOT NULL,
     primary key (employee_id),
     foreign key (supervisor) references employee(employee_id),
     foreign key (pay_grade) references pay_grade(pay_grade),
     foreign key (job_title_id) references job_title(job_title_id),
-    foreign key (pay_grade) references pay_grade(pay_grade),
     foreign key (branch_id) references branch(branch_id)
 );
 
