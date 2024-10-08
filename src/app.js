@@ -6,6 +6,8 @@ const jwt = require('jsonwebtoken');
 const authenticateToken = require('./middlewares/authenticateToken');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const absenceModule = require('./modules/absence');
+const userModule = require('./modules/user');
 
 app.use(cors({
     origin: 'http://localhost:3000',
@@ -14,62 +16,7 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 
-app.post('/login', (req, res) => {
-    const { username, password } = req.body;
-
-    const query = 'SELECT * FROM user WHERE username = ?';
-
-    pool.query(query, [username])
-        .then( async ([rows]) => {
-            if (rows.length === 0) {
-                return res.status(401).json({ message: 'Invalid username or password' });
-            }
-
-            const user = rows[0];
-
-            const isPasswordMatch = await bcrypt.compare(password, user.password);
-
-            if (!isPasswordMatch) {
-                return res.status(401).json({ message: 'Invalid username or password' });
-            }
-
-            const payload = { 
-                username: user.username,
-                role : user.role
-            };
-
-            const accessToken = jwt.sign( payload , process.env.ACCESS_TOKEN_SECRET, { expiresIn: '10min' });
-            const refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1h' });
-
-            res.cookie('refreshToken', refreshToken, { httpOnly: true,});
-            res.status(200).json({ accessToken, role: user.role });
-
-        }).catch((error) => {
-            console.error(error);
-            res.status(500).json({ message: 'Internal server error' });
-        });
-
-});
-
-app.get('/refresh_token', (req, res) => {
-    const refreshToken = req.cookies?.refreshToken;
-
-    if (!refreshToken) {
-        return res.status(401).json({ message: 'Unauthorized' });
-    }
-
-    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (error, user) => {
-        if (error) {
-            return res.status(403).json({ message: 'Forbidden' });
-        }
-
-        const payload = { username: user.username, role: user.role };
-
-        const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '10min' });
-
-        res.status(200).json({ accessToken });
-    });
-});
+app.use('/user', userModule);
 
 //only for testing.. this is not part of the project
 app.post('/signup', (req, res) => {
@@ -91,5 +38,7 @@ app.post('/signup', (req, res) => {
 app.use(authenticateToken);
 
 //call role based routes here... use authorizeRoles middleware to check the role of the user
+
+app.use('/absence', absenceModule);
 
 module.exports = app;

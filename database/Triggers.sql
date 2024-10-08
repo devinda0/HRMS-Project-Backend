@@ -8,7 +8,7 @@ FOR EACH ROW
 BEGIN
 	DECLARE next_id INT;
     
-    SELECT (COALESCE(MAX(CAST(SUBSTRING(employee_id, 4) AS UNSIGNED)), 0) + 1) INTO next_int
+    SELECT (COALESCE(MAX(CAST(SUBSTRING(employee_id, 4) AS UNSIGNED)), 0) + 1) INTO next_id
     FROM employee;
     
     SET NEW.employee_id = CONCAT('EMP', LPAD(next_id, 6, '0'));
@@ -28,7 +28,7 @@ FOR EACH ROW
 BEGIN
 	DECLARE next_id INT;
     
-    SELECT (COALESCE(MAX(CAST(SUBSTRING(dependant_id, 4) AS UNSIGNED)), 0) + 1) INTO next_int
+    SELECT (COALESCE(MAX(CAST(SUBSTRING(dependant_id, 4) AS UNSIGNED)), 0) + 1) INTO next_id
     FROM dependant;
     
     SET NEW.dependant_id = CONCAT('DEP', LPAD(next_id, 6, '0'));
@@ -48,7 +48,7 @@ FOR EACH ROW
 BEGIN
 	DECLARE next_id INT;
     
-    SELECT (COALESCE(MAX(CAST(SUBSTRING(branch_id, 4) AS UNSIGNED)), 0) + 1) INTO next_int
+    SELECT (COALESCE(MAX(CAST(SUBSTRING(branch_id, 4) AS UNSIGNED)), 0) + 1) INTO next_id
     FROM branch;
     
     SET NEW.branch_id = CONCAT('BR', LPAD(next_id, 3, '0'));
@@ -68,7 +68,7 @@ FOR EACH ROW
 BEGIN
 	DECLARE next_id INT;
     
-    SELECT (COALESCE(MAX(CAST(SUBSTRING(attribute_id, 4) AS UNSIGNED)), 0) + 1) INTO next_int
+    SELECT (COALESCE(MAX(CAST(SUBSTRING(attribute_id, 4) AS UNSIGNED)), 0) + 1) INTO next_id
     FROM employee_attribute;
     
     SET NEW.attribute_id = CONCAT('ATB', LPAD(next_id, 2, '0'));
