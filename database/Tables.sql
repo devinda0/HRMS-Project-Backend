@@ -97,9 +97,10 @@ CREATE TABLE leaves (
 	leave_id CHAR(36),
     start_date DATE NOT NULL,
     end_date DATE NOT NULL,
-    leave_type ENUM('Annual', 'Casual', 'Maternity', 'No-pay') NOT NULL,
+    leave_type ENUM('annual', 'casual', 'maternity', 'no-pay') NOT NULL,
     employee_id CHAR(9) NOT NULL,
     leave_status ENUM('Pending', 'Accepted', 'Rejected') NOT NULL,
+    reason VARCHAR(255),
     primary key (leave_id),
     foreign key (employee_id) references employee(employee_id)
 );
