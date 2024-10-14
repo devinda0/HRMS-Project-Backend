@@ -7,7 +7,7 @@ const addLeave = async (leave) => {
     return rows[0];
 }
 
-const getLeaves = async (employee_id, leave_type) => {
+const getLeavesByStatus = async (employee_id, leave_type) => {
     const query = `CALL GET_EMPLOYEE_LEAVES(?,?)`;
     const [rows] = await db.query(query, [employee_id, leave_type]);
 
@@ -25,20 +25,50 @@ const getLeaveCount = async (employee_id) => {
     const query = `CALL GET_LEAVE_COUNT(?)`;
     const [rows] = await db.query(query, [employee_id]);
 
-    return rows[0];
+    const leaveCount = {};
+
+    rows[0].forEach((row) => {
+        leaveCount[row.leave_type] = row.count;
+    });
+
+    return leaveCount;
 }
 
 const getTotalLeaveCount = async (employee_id) => {
     const query = `CALL GET_TOTAL_LEAVE_COUNT(?)`;
     const [rows] = await db.query(query, [employee_id]);
 
+    return rows[0][0];
+}
+
+const getLeaveById = async (leave_id) => {
+    const query = `CALL GET_LEAVE_BY_ID(?)`;
+    const [rows] = await db.query(query, [leave_id]);
+
+    return rows[0][0];
+}
+
+const deleteLeaveById = async (leave_id) => {
+    const query = `CALL DELETE_LEAVE_BY_ID(?)`;
+    const [rows] = await db.query(query, [leave_id]);
+
+    return rows[0];
+}
+
+const getSubordinatesLeaves = async (supervisor_id, status) => {
+    const query = `CALL GET_SUBORDINATES_LEAVES(?, ?)`;
+    const [rows] = await db.query(query, [supervisor_id, status]);
+
     return rows[0];
 }
 
 module.exports = {
     addLeave,
-    getLeaves,
+    getLeavesByStatus,
     updateLeaveStatus,
+    getSubordinatesLeaves,
+    getLeaveById,
+    deleteLeaveById,
     getLeaveCount,
     getTotalLeaveCount
 }

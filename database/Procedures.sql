@@ -34,16 +34,55 @@ DELIMITER //
 //
 DELIMITER ;
 
+-- STORED PROCEDURE FOR GETTING LEAVE BY ID
+DELIMITER //
+
+    CREATE PROCEDURE GET_LEAVE_BY_ID(
+        IN leave_id CHAR(36)
+    )   
+    BEGIN
+        SELECT leaves.leave_id, leaves.start_date, leaves.end_date, leaves.leave_type, leaves.leave_status, leaves.reason, employee.employee_id, employee.name, employee.supervisor as supervisor_id
+        FROM leaves JOIN employee ON leaves.employee_id = employee.employee_id
+        WHERE leaves.leave_id = leave_id;
+    END;
+
+//
+DELIMITER ;
+
+-- STORED PROCEDURE FOR DELETE LEAVE BY ID
+DELIMITER //
+
+    CREATE PROCEDURE DELETE_LEAVE_BY_ID(
+        IN leave_id CHAR(36)
+    )
+    BEGIN
+        DECLARE EXIT HANDLER FOR SQLEXCEPTION
+        BEGIN
+            ROLLBACK;
+            RESIGNAL;
+        END;
+
+        START TRANSACTION;
+
+            DELETE FROM leaves WHERE leaves.leave_id = leave_id;
+
+        COMMIT;
+    END;
+
+//
+DELIMITER ;
 
 -- STORED PROCEDURE FOR GETTING EMPLOYEE LEAVES BY ID AND STATUS
 DELIMITER //
 
     CREATE PROCEDURE GET_EMPLOYEE_LEAVES(
         IN employee_id CHAR(9),
-        IN leave_status ENUM('Pending', 'Accepted', 'Rejected')
+        IN leave_status ENUM('Pending', 'Approved', 'Declined', 'Cancelled')
     )
     BEGIN
-        SELECT * FROM leaves WHERE employee_id = employee_id AND leave_status = leave_status;
+        SELECT leaves.leave_id, leaves.start_date, leaves.end_date, leaves.leave_type, leaves.leave_status, leaves.reason, employee.employee_id, employee.name, employee.supervisor as supervisor_id
+        FROM leaves JOIN employee ON leaves.employee_id = employee.employee_id
+        WHERE leaves.employee_id = employee_id AND leaves.leave_status = leave_status;
     END;
 
 //
@@ -55,7 +94,7 @@ DELIMITER //
 
     CREATE PROCEDURE UPDATE_LEAVE_STATUS(
         IN leave_id CHAR(36),
-        IN leave_status ENUM('Pending', 'Accepted', 'Rejected')
+        IN leave_status ENUM('Pending', 'Approved', 'Declined', 'Cancelled')
     )
     BEGIN
         DECLARE EXIT HANDLER FOR SQLEXCEPTION
@@ -66,9 +105,25 @@ DELIMITER //
 
         START TRANSACTION;
 
-            UPDATE leaves SET leave_status = leave_status WHERE leave_id = leave_id;
+            UPDATE leaves SET leaves.leave_status = leave_status WHERE leaves.leave_id = leave_id;
 
         COMMIT;
+    END;
+
+//
+DELIMITER ;
+
+-- STORED PROCEDURE FOR GETTING SUBORDINATE LEAVES BY SUPERVISOR ID AND STATUS
+DELIMITER //
+
+    CREATE PROCEDURE GET_SUBORDINATES_LEAVES(
+        IN supervisor_id CHAR(9),
+        IN leave_status ENUM('Pending', 'Approved', 'Declined', 'Cancelled')
+    )
+    BEGIN
+        SELECT leaves.leave_id, leaves.start_date, leaves.end_date, leaves.leave_type, leaves.leave_status, leaves.reason, employee.employee_id, employee.name, employee.supervisor as supervisor_id
+        FROM leaves JOIN employee ON leaves.employee_id = employee.employee_id
+        WHERE employee.supervisor = supervisor_id AND leaves.leave_status = leave_status;
     END;
 
 //
@@ -82,7 +137,10 @@ DELIMITER //
         IN employee_id CHAR(9)
     )
     BEGIN
-        SELECT leave_type, COUNT(*) AS count FROM leaves WHERE employee_id = employee_id GROUP BY leave_type;
+        SELECT leave_type, COUNT(*) AS count 
+        FROM leaves 
+        WHERE leaves.employee_id = employee_id AND (leaves.leave_status = 'Pending' OR leaves.leave_status = 'Approved') 
+        GROUP BY leave_type;
     END;
 
 //
@@ -96,7 +154,7 @@ DELIMITER //
         IN employee_id CHAR(9)
     )
     BEGIN
-        SELECT * FROM leave_count WHERE pay_grade IN (SELECT pay_grade FROM employee WHERE employee_id = employee_id);
+        SELECT Annual, Casual, Maternity, No_pay AS 'No-pay' FROM employee_total_leave_count AS leave_count WHERE leave_count.employee_id = employee_id;
     END;
 
 //
@@ -112,7 +170,7 @@ DELIMITER //
         IN username VARCHAR(100)
     )
     BEGIN
-        SELECT * FROM user WHERE username = username;
+        SELECT * FROM user WHERE user.username = username;
     END;
 //
 DELIMITER ;
