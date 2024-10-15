@@ -20,7 +20,7 @@ CREATE TABLE job_title(
     job_title VARCHAR(100) NOT NULL,
     department_name VARCHAR(100),
     primary key(job_title_id),
-    foreign key (department_name) references department(department_name)
+    foreign key (department_name) references department(department_name) ON DELETE CASCADE
 );
 
 
@@ -37,7 +37,7 @@ CREATE TABLE leave_count(
     Maternity INT NOT NULL, 
     No_pay INT NOT NULL,
     primary key (pay_grade),
-    foreign key (pay_grade) references pay_grade(pay_grade)
+    foreign key (pay_grade) references pay_grade(pay_grade) ON DELETE CASCADE
 );
 
 CREATE TABLE employee(
@@ -67,7 +67,7 @@ CREATE TABLE dependant(
     relation VARCHAR(255) NOT NULL,
     gender ENUM('MALE','FEMALE') NOT NULL,
     primary key (dependant_id),
-    foreign key (employee_id) references employee(employee_id)
+    foreign key (employee_id) references employee(employee_id) ON DELETE CASCADE
 );
 
 CREATE TABLE employee_attribute(
@@ -81,16 +81,17 @@ CREATE TABLE attribute_value(
     attribute_id CHAR(5),
     value VARCHAR(255) NOT NULL,
     primary key (employee_id, attribute_id),
-    foreign key (employee_id) references employee(employee_id),
-    foreign key (attribute_id) references employee_attribute(attribute_id)
+    foreign key (employee_id) references employee(employee_id) ON DELETE CASCADE,
+    foreign key (attribute_id) references employee_attribute(attribute_id) ON DELETE CASCADE
 );
 
 
 CREATE TABLE emergency_contact(
 	employee_id CHAR(9),
+    relation VARCHAR(100) NOT NULL,
     contact_no INT,
     primary key (employee_id, contact_no),
-    foreign key (employee_id) references employee(employee_id)
+    foreign key (employee_id) references employee(employee_id) ON DELETE CASCADE
 );
 
 CREATE TABLE leaves (
@@ -102,7 +103,7 @@ CREATE TABLE leaves (
     leave_status ENUM('Pending', 'Approved', 'Declined', 'Cancelled') NOT NULL,
     reason VARCHAR(255),
     primary key (leave_id),
-    foreign key (employee_id) references employee(employee_id)
+    foreign key (employee_id) references employee(employee_id) ON DELETE CASCADE
 );
 
 CREATE TABLE organization (
@@ -122,7 +123,7 @@ CREATE TABLE user (
     password VARCHAR(255) NOT NULL,
     role ENUM('Admin', 'Manager', 'Employee_lvl1', 'Employee_lvl2') NOT NULL,
     primary key (employee_id),
-    foreign key (employee_id) references employee(employee_id)
+    foreign key (employee_id) references employee(employee_id) ON DELETE CASCADE    
 );
 
 

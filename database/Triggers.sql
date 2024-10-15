@@ -113,3 +113,21 @@ END;
 //
 
 DELIMITER ;
+
+-- TRIGGER FOR GENERATE JOB TITLE ID FOR NEWLY ADDED JOB TITLE
+DELIMITER //
+    CREATE TRIGGER job_title_insert
+    BEFORE INSERT ON job_title
+    FOR EACH ROW
+    BEGIN
+        DECLARE next_id INT;
+        
+        SELECT (COALESCE(MAX(CAST(SUBSTRING(job_title_id, 3) AS UNSIGNED)), 0) + 1) INTO next_id
+        FROM job_title;
+        
+        SET NEW.job_title_id = CONCAT('JT', LPAD(next_id, 4, '0'));
+        
+    END;
+//
+DELIMITER ;
+
