@@ -22,9 +22,10 @@ const userLogin = async (req, res) => {
         }
 
         const payload = { 
-            username: user.username,
+            employee_id: user.employee_id,
             role : user.role
         };
+    
 
         const accessToken = jwt.sign( payload , process.env.ACCESS_TOKEN_SECRET, { expiresIn: '10min' });
         const refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1h' });
@@ -50,7 +51,7 @@ const refreshToken = (req, res) => {
             return res.status(403).json({ message: 'Forbidden' });
         }
 
-        const payload = { username: user.username, role: user.role };
+        const payload = { employee_id: user.employee_id, role: user.role };
 
         const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '10min' });
 
@@ -58,7 +59,13 @@ const refreshToken = (req, res) => {
     });
 };
 
+const userLogout = (req, res) => {
+    res.clearCookie('refreshToken');
+    res.status(200).json({ message: 'Logged out' });
+}
+
 module.exports = {
     userLogin,
+    userLogout,
     refreshToken
 }

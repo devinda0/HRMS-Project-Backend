@@ -1,4 +1,19 @@
 
+-- TRIGGER FOR GENERATE LEAVE ID FOR NEWLY ADDED LEAVE
+DELIMITER //
+
+CREATE TRIGGER generate_leave_id
+BEFORE INSERT ON leaves
+FOR EACH ROW
+BEGIN
+    SET NEW.leave_id = UUID();
+END;
+
+//
+
+DELIMITER ;
+
+
 -- TRIGGER FOR GENERATE EMPLOYEE ID FOR NEWLY ADDED EMPLOYEE
 DELIMITER //
 
@@ -94,6 +109,40 @@ BEGIN
     IF row_count >= 1 THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'The system can have only one organization.';
 	END IF;
+END;
+//
+
+DELIMITER ;
+
+
+-- TRIGGER FOR GENERATE JOB TITLE ID for newly added job title
+DELIMITER //
+
+CREATE TRIGGER job_title_insert
+BEFORE INSERT ON job_title
+FOR EACH ROW
+BEGIN
+    DECLARE next_id INT;
+    
+    SELECT COALESCE(MAX(CAST(SUBSTRING(job_title_id, 3) AS UNSIGNED)), 0) + 1 INTO next_id
+    FROM job_title;
+    
+    SET NEW.job_title_id = CONCAT('JT', LPAD(next_id, 2, '0'));
+    
+END;
+//
+
+DELIMITER ;
+
+-- TRIGGER FOR GENERATE A LEAVE ID for newly added leave
+DELIMITER //
+
+CREATE TRIGGER leave_insert
+BEFORE INSERT ON leaves
+FOR EACH ROW
+BEGIN
+    -- Generate a new UUID for the leave_id
+    SET NEW.leave_id = UUID();
 END;
 //
 

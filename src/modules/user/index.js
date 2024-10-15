@@ -3,8 +3,9 @@ const router = express.Router();
 const userController = require('./controllers/userController');
 const authorizeRoles = require('../../middlewares/authorizeRoles');
 
-router.post('/login', authorizeRoles(['Admin','']) , userController.userLogin);
-router.get('/refresh_token', userController.refreshToken);
+router.post('/login', userController.userLogin);
+router.post('/logout', userController.userLogout);
+router.post('/refresh_token', userController.refreshToken);
 
 
 module.exports = router;

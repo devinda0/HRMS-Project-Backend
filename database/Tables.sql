@@ -32,10 +32,10 @@ CREATE TABLE pay_grade(
 
 CREATE TABLE leave_count(
 	pay_grade VARCHAR(100),
-    annual INT,
-    casual INT,
-    maternity INT, 
-    no_pay INT,
+    Annual INT NOT NULL,
+    Casual INT NOT NULL,
+    Maternity INT NOT NULL, 
+    No_pay INT NOT NULL,
     primary key (pay_grade),
     foreign key (pay_grade) references pay_grade(pay_grade)
 );
@@ -43,7 +43,7 @@ CREATE TABLE leave_count(
 CREATE TABLE employee(
 	employee_id CHAR(9),
     name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
     address VARCHAR(255) NOT NULL,
     birthday DATE NOT NULL,
     marital_status ENUM('Married', 'Single', 'Divorced') NOT NULL,
@@ -99,7 +99,8 @@ CREATE TABLE leaves (
     end_date DATE NOT NULL,
     leave_type ENUM('Annual', 'Casual', 'Maternity', 'No-pay') NOT NULL,
     employee_id CHAR(9) NOT NULL,
-    leave_status ENUM('Pending', 'Accepted', 'Rejected') NOT NULL,
+    leave_status ENUM('Pending', 'Approved', 'Declined', 'Cancelled') NOT NULL,
+    reason VARCHAR(255),
     primary key (leave_id),
     foreign key (employee_id) references employee(employee_id)
 );
