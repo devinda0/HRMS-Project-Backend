@@ -176,11 +176,114 @@ DELIMITER //
 DELIMITER ;
 
 
+----------------------------------PROCEDURES FOR Report MODULE--------------------------------------
+
+-- STORED PROCEDURE FOR GETTING EMPLOYEES BY DEPARTMENT
+DELIMITER //
+
+CREATE PROCEDURE GET_EMPLOYEES_BY_DEPARTMENT(
+    IN p_department_name VARCHAR(100)
+)
+BEGIN
+    SELECT 
+        e.employee_id,
+        e.name,
+        e.email,
+        e.address,
+        e.birthday,
+        e.marital_status,
+        e.supervisor,
+        jt.job_title,
+        pg.pay_grade,
+        e.employment_status,
+        b.branch_name
+    FROM employee e
+    JOIN job_title jt ON e.job_title_id = jt.job_title_id
+    JOIN pay_grade pg ON e.pay_grade = pg.pay_grade
+    JOIN branch b ON e.branch_id = b.branch_id
+    JOIN department d ON jt.department_name = d.department_name
+    WHERE d.department_name = p_department_name;
+END;
+//
+
+DELIMITER ;
 
 
+-- STORED PROCEDURE FOR GETTING TOTAL LEAVES BY DEPARTMENT AND PERIOD
+DELIMITER //
+
+CREATE PROCEDURE GET_TOTAL_LEAVES_BY_DEPARTMENT_PERIOD(
+    IN p_department_name VARCHAR(100),
+    IN p_start_date DATE,
+    IN p_end_date DATE
+)
+BEGIN
+    SELECT 
+        l.leave_type,
+        COUNT(l.leave_id) AS total_leaves
+    FROM leaves l
+    JOIN employee e ON l.employee_id = e.employee_id
+    JOIN job_title jt ON e.job_title_id = jt.job_title_id
+    WHERE jt.department_name = p_department_name
+      AND l.start_date >= p_start_date
+      AND l.end_date <= p_end_date
+      AND l.leave_status IN ('Approved', 'Pending') -- Considering only relevant statuses
+    GROUP BY l.leave_type;
+END;
+//
+
+DELIMITER ;
+
+-- STORED PROCEDURE FOR GETTING EMPLOYEE REPORTS GROUPED BY JOB TITLE, DEPARTMENT, AND PAY GRADE
+DELIMITER //
+
+CREATE PROCEDURE GET_EMPLOYEE_REPORTS_GROUPED()
+BEGIN
+    SELECT 
+        d.department_name,
+        jt.job_title,
+        pg.pay_grade,
+        COUNT(e.employee_id) AS total_employees,
+        AVG(pg.basic_salary) AS average_salary,
+        SUM(CASE WHEN e.employment_status = 'Permanent' THEN 1 ELSE 0 END) AS permanent_employees,
+        SUM(CASE WHEN e.employment_status LIKE 'Contract%' THEN 1 ELSE 0 END) AS contract_employees
+    FROM employee e
+    JOIN job_title jt ON e.job_title_id = jt.job_title_id
+    JOIN department d ON jt.department_name = d.department_name
+    JOIN pay_grade pg ON e.pay_grade = pg.pay_grade
+    GROUP BY d.department_name, jt.job_title, pg.pay_grade
+    ORDER BY d.department_name, jt.job_title, pg.pay_grade;
+END;
+//
+
+DELIMITER ;
 
 
+-- STORED PROCEDURE FOR GETTING EMPLOYEES WITH PAST EXPERIENCE
+DELIMITER //
 
+CREATE PROCEDURE GET_EMPLOYEES_WITH_PAST_EXPERIENCE()
+BEGIN
+    SELECT 
+        e.employee_id,
+        e.name,
+        e.email,
+        jt.job_title,
+        pg.pay_grade,
+        e.employment_status,
+        b.branch_name,
+        av.value AS experience
+    FROM employee e
+    JOIN job_title jt ON e.job_title_id = jt.job_title_id
+    JOIN pay_grade pg ON e.pay_grade = pg.pay_grade
+    JOIN branch b ON e.branch_id = b.branch_id
+    JOIN attribute_value av ON e.employee_id = av.employee_id
+    JOIN employee_attribute ea ON av.attribute_id = ea.attribute_id
+    WHERE ea.attribute_name = 'Experience'
+      AND av.value IS NOT NULL
+      AND TRIM(av.value) <> '';
+END;
+//
 
-
+DELIMITER ;
 
