@@ -90,6 +90,8 @@ CREATE TABLE emergency_contact(
 	employee_id CHAR(9),
     relation VARCHAR(100) NOT NULL,
     contact_no INT,
+    relationship VARCHAR(100),
+    contact_name VARCHAR(100) NOT NULL,
     primary key (employee_id, contact_no),
     foreign key (employee_id) references employee(employee_id) ON DELETE CASCADE
 );
