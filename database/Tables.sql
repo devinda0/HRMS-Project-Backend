@@ -88,8 +88,7 @@ CREATE TABLE attribute_value(
 
 CREATE TABLE emergency_contact(
 	employee_id CHAR(9),
-    relation VARCHAR(100) NOT NULL,
-    contact_no INT,
+    contact_no INT NOT NULL,
     relationship VARCHAR(100),
     contact_name VARCHAR(100) NOT NULL,
     primary key (employee_id, contact_no),
