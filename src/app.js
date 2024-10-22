@@ -8,6 +8,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const absenceModule = require('./modules/absence');
 const userModule = require('./modules/user');
+const pimModule = require('./modules/pim');
 
 app.use(cors({
     origin: 'http://localhost:3000',
@@ -34,6 +35,8 @@ app.post('/signup', (req, res) => {
             res.status(500).json({ message: 'Internal server error' });
         });
 });
+
+app.use('/pim', pimModule);
 
 app.use(authenticateToken);
 

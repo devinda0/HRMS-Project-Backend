@@ -349,7 +349,7 @@ DELIMITER ;
 DELIMITER //
     CREATE PROCEDURE GET_ALL_EMPLOYEES()
     BEGIN
-        SELECT * FROM employee;
+        SELECT * FROM employee_details;
     END;
 //
 DELIMITER ;
