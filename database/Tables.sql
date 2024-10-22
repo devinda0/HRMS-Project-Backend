@@ -47,6 +47,8 @@ CREATE TABLE employee(
     address VARCHAR(255) NOT NULL,
     birthday DATE NOT NULL,
     marital_status ENUM('Married', 'Single', 'Divorced') NOT NULL,
+    gender ENUM('Male', 'Female') NOT NULL,
+    contact_no char(10) NOT NULL,
     supervisor CHAR(9),
     job_title_id CHAR(6) NOT NULL,
     pay_grade VARCHAR(100) NOT NULL,
@@ -88,7 +90,7 @@ CREATE TABLE attribute_value(
 
 CREATE TABLE emergency_contact(
 	employee_id CHAR(9),
-    contact_no INT NOT NULL,
+    contact_no char(10) NOT NULL,
     relationship VARCHAR(100),
     contact_name VARCHAR(100) NOT NULL,
     primary key (employee_id, contact_no),
