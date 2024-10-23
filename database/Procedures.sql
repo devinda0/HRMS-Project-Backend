@@ -622,3 +622,60 @@ DELIMITER //
 DELIMITER ;
 
 
+-- PROCEDURE FOR DELETING DEPENDANT BY DEPENDANT ID
+DELIMITER //
+    CREATE PROCEDURE DELETE_DEPENDANT_BY_ID(
+        IN dependant_id CHAR(9)
+    )
+    BEGIN
+        DECLARE EXIT HANDLER FOR SQLEXCEPTION
+        BEGIN
+            ROLLBACK;
+            RESIGNAL;
+        END;
+
+        START TRANSACTION;
+
+            DELETE FROM dependant WHERE dependant.dependant_id = dependant_id;
+
+        COMMIT;
+    END;
+//
+DELIMITER ;
+
+
+-- PROCEDURE FOR DELETING EMERGENCY CONTACT BY CONTACT NO
+
+DELIMITER //
+    CREATE PROCEDURE DELETE_EMERGENCY_CONTACT(
+        IN employee_id CHAR(9),
+        IN contact_no CHAR(10)
+    )
+    BEGIN
+        DECLARE EXIT HANDLER FOR SQLEXCEPTION
+        BEGIN
+            ROLLBACK;
+            RESIGNAL;
+        END;
+
+        START TRANSACTION;
+
+            DELETE FROM emergency_contact 
+            WHERE emergency_contact.employee_id = employee_id AND emergency_contact.contact_no = contact_no;
+
+        COMMIT;
+    END;
+//
+DELIMITER ;
+
+
+-- PROCEDURE FOR SEARCHING EMPLOYEE BY NAME
+DELIMITER //
+    CREATE PROCEDURE SEARCH_EMPLOYEE_BY_NAME(
+        IN name VARCHAR(100)
+    )
+    BEGIN
+        SELECT * FROM employee WHERE employee.name LIKE CONCAT('%', name, '%');
+    END;
+//
+DELIMITER ;
