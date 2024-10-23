@@ -137,9 +137,9 @@ DELIMITER //
         IN employee_id CHAR(9)
     )
     BEGIN
-        SELECT leave_type, COUNT(*) AS count 
+        SELECT leave_type, SUM(DATEDIFF(end_date, start_date) + 1) AS count 
         FROM leaves 
-        WHERE leaves.employee_id = employee_id AND (leaves.leave_status = 'Pending' OR leaves.leave_status = 'Approved') 
+        WHERE leaves.employee_id = employee_id AND leaves.leave_status = 'Approved'
         GROUP BY leave_type;
     END;
 
@@ -349,7 +349,7 @@ DELIMITER ;
 DELIMITER //
     CREATE PROCEDURE GET_ALL_EMPLOYEES()
     BEGIN
-        SELECT * FROM employee;
+        SELECT * FROM employee_details;
     END;
 //
 DELIMITER ;
