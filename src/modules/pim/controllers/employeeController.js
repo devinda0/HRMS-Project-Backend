@@ -1,4 +1,6 @@
 const Employee = require('../models/employeeModel');
+const Dependent = require('../models/dependentModel');
+const Contact = require('../models/contactModel');
 
 const getAllEmployees = async (req, res) => {
     console.log('getAllEmployees');
@@ -11,6 +13,27 @@ const getAllEmployees = async (req, res) => {
     }
 }
 
+const deleteDependent = async (req, res) => {
+    const { dependant_id } = req.params;
+    
+    try {
+        const result = await Dependent.deleteDependent(dependant_id);
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: 'Dependent not found' });
+        }
+
+        res.status(200).json({ message: 'Dependent deleted successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
+
+
 module.exports = {
-    getAllEmployees
+    getAllEmployees,
+    deleteDependent,
+    
 };
