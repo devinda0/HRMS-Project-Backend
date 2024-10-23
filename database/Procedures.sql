@@ -317,16 +317,18 @@ DELIMITER //
     CREATE PROCEDURE ADD_EMPLOYEE(
         IN name VARCHAR(100),
         IN email VARCHAR(100),
-        address VARCHAR(255),
-        birthday DATE,
-        marital_status ENUM('Married', 'Single', 'Divorced'),
-        supervisor CHAR(9),
-        job_title_id CHAR(6),
-        pay_grade VARCHAR(100),
-        employment_status ENUM('Intern_Fulltime', 'Intern_Parttime', 'Contract_Fulltime', 'Contract_Parttime', 'Permanent', 'Freelance'),
-        branch_id CHAR(5)
+        IN address VARCHAR(255),
+        IN birthday DATE,
+        IN marital_status ENUM('Married', 'Single', 'Divorced'),
+        IN job_title CHAR(6),
+        IN pay_grade VARCHAR(100),
+        IN employment_status ENUM('Intern_Fulltime', 'Intern_Parttime', 'Contract_Fulltime', 'Contract_Parttime', 'Permanent', 'Freelance'),
+        IN branch_name VARCHAR(100),
+        IN supervisor CHAR(9)
     )
     BEGIN
+        DECLARE job_id CHAR(6);
+        DECLARE branch_id CHAR(6);
         DECLARE EXIT HANDLER FOR SQLEXCEPTION
         BEGIN
             ROLLBACK;
@@ -334,6 +336,13 @@ DELIMITER //
         END;
 
         START TRANSACTION;
+         SELECT job_title_id INTO job_id
+         FROM job_titles 
+         WHERE job_title = job_title;
+
+         SELECT branch_id INTO branch_id
+         FROM branch  
+         WHERE branch_name = branch_name;
 
 
             INSERT INTO employee (name, email, address, birthday, marital_status, supervisor, job_title_id, pay_grade, employment_status, branch_id) VALUES
@@ -360,53 +369,62 @@ DELIMITER //
         IN employee_id CHAR(9)
     )
     BEGIN
-        SELECT * FROM employee WHERE employee.employee_id = employee_id;
+        SELECT * 
+        FROM employee AS emp join job_title AS jt  on emp.job_title_id = jt.job_title_id;
+        join branch AS br on emp.branch_id=br.branch_id
+        where emp.employee_id=employee_id;
     END;
 //
 DELIMITER ;
 
 -- PROCEDURE FOR UPDATE EMPLOYEE BY ID
-DELIMITER //
-    CREATE PROCEDURE UPDATE_EMPLOYEE_BY_ID(
-        IN employee_id CHAR(9),
-        IN name VARCHAR(100),
-        IN email VARCHAR(100),
-        IN address VARCHAR(255),
-        IN birthday DATE,
-        IN marital_status ENUM('Married', 'Single', 'Divorced'),
-        IN supervisor CHAR(9),
-        IN job_title_id CHAR(6),
-        IN pay_grade VARCHAR(100),
-        IN employment_status ENUM('Intern_Fulltime', 'Intern_Parttime', 'Contract_Fulltime', 'Contract_Parttime', 'Permanent', 'Freelance'),
-        IN branch_id CHAR(5)
-    )
+CREATE PROCEDURE UPDATE_EMPLOYEE_BY_ID(
+    IN employee_id CHAR(9),
+    IN name VARCHAR(100),
+    IN email VARCHAR(100),
+    IN address VARCHAR(255),
+    IN birthday DATE,
+    IN marital_status ENUM('Married', 'Single', 'Divorced'),
+    
+    IN job_title VARCHAR(100),
+    IN pay_grade VARCHAR(100),
+    IN employment_status ENUM('Intern_Fulltime', 'Intern_Parttime', 'Contract_Fulltime', 'Contract_Parttime', 'Permanent', 'Freelance'),
+    IN branch_name VARCHAR(100)
+)
+BEGIN 
+    DECLARE job_id CHAR(6);
+    DECLARE branch_id CHAR(6);
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
     BEGIN
-        DECLARE EXIT HANDLER FOR SQLEXCEPTION
-        BEGIN
-            ROLLBACK;
-            RESIGNAL;
-        END;
+        ROLLBACK;
+        RESIGNAL;
+    END;
+   
+    START TRANSACTION;
+        SELECT job_title_id INTO job_id
+        FROM job_titles 
+        WHERE job_title = job_title;
 
-        START TRANSACTION;
+        SELECT branch_id INTO branch_id
+        FROM branch  
+        WHERE branch_name = branch_name;
 
-            UPDATE employee SET 
-                employee.name = name,
-                employee.email = email,
-                employee.address = address,
-                employee.birthday = birthday,
-                employee.marital_status = marital_status,
-                employee.supervisor = supervisor,
-                employee.job_title_id = job_title_id,
-                employee.pay_grade = pay_grade,
-                employee.employment_status = employment_status,
-                employee.branch_id = branch_id
-            WHERE employee.employee_id = employee_id;
-            
-        COMMIT;
-    END;    
+        UPDATE employee SET 
+            employee.name = name,
+            employee.email = email,
+            employee.address = address,
+            employee.birthday = birthday,
+            employee.marital_status = marital_status,
+            employee.job_title_id = job_id,
+            employee.pay_grade = pay_grade,
+            employee.employment_status = employment_status,
+            employee.branch_id = branch_id
+        WHERE employee.employee_id = employee_id;
+        
+    COMMIT;
+END;
 //
 DELIMITER ;
-
 
 -- PROCEDURE FOR GETTING DEPENDANTS BY EMPLOYEE ID
 DELIMITER //
