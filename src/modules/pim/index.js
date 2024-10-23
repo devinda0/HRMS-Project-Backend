@@ -6,5 +6,6 @@ const route = express.Router();
 route.get('/employees', employeeController.getAllEmployees);
 route.delete('/dependent/:dependant_id', employeeController.deleteDependent);
 route.delete('/contact/:contact_id', employeeController.deleteContact);
+route.get('/employees/search', employeeController.searchEmployeeByName);
 
 module.exports = route;

@@ -47,9 +47,26 @@ const deleteContact = async (req, res) => {
     }
 }
 
+const searchEmployeeByName = async (req, res) => {
+    const { name } = req.query;
+
+    if (!name) {
+        return res.status(400).json({ message: 'Please provide a name to search' });
+    }
+
+    try {
+        const employees = await Employee.searchEmployeeByName(name);
+        return res.status(200).json(employees);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
 
 module.exports = {
     getAllEmployees,
     deleteDependent,
     deleteContact,
+    searchEmployeeByName,
 };

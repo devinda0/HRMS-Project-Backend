@@ -20,8 +20,15 @@ const deleteContact = async (contact_id) => {
     return rows[0];
 }
 
+const searchEmployeeByName = async (name) => {
+    const query = `CALL SEARCH_EMPLOYEE_BY_NAME(?)`;
+    const [rows] = await db.query(query, [name]);
+    return rows[0];
+}
+
 module.exports = {
     getAllEmployees,
     deleteDependent,
     deleteContact,
+    searchEmployeeByName,
 };

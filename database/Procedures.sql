@@ -644,6 +644,18 @@ DELIMITER //
 
 DELIMITER ;
 
+--PROCEDURE FOR SEARCH EMPLOYEE BY NAME
+
+DELIMITER //
+    CREATE PROCEDURE SEARCH_EMPLOYEE_BY_NAME(IN employee_name VARCHAR(255))
+    BEGIN
+        SELECT * 
+        FROM employee
+        WHERE name LIKE CONCAT('%', employee_name, '%');
+    END; 
+//
+DELIMITER ;
+
 
 
 
