@@ -633,7 +633,16 @@ DELIMITER //
 
 DELIMITER ;
 
+--PROCEDURE FOR DELETE EMPLOYEE CONTACT INFORMATION
 
+DELIMITER //
+    CREATE PROCEDURE DELETE_CONTACT(IN contact_id CHAR(9))
+    BEGIN
+        DELETE FROM employee_contact WHERE contact_id = contact_id;
+    END; 
+//
+
+DELIMITER ;
 
 
 

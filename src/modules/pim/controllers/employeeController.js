@@ -30,10 +30,26 @@ const deleteDependent = async (req, res) => {
     }
 }
 
+const deleteContact = async (req, res) => {
+    const { contact_id } = req.params;
+    
+    try {
+        const result = await Contact.deleteContact(contact_id);
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: 'Contact information not found' });
+        }
+
+        res.status(200).json({ message: 'Contact information deleted successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
 
 
 module.exports = {
     getAllEmployees,
     deleteDependent,
-    
+    deleteContact,
 };

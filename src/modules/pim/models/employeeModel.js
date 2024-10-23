@@ -14,10 +14,14 @@ const deleteDependent = async (dependant_id) => {
 }
 
 
-
+const deleteContact = async (contact_id) => {
+    const query = `CALL DELETE_CONTACT(?)`;
+    const [rows] = await db.query(query, [contact_id]);
+    return rows[0];
+}
 
 module.exports = {
     getAllEmployees,
     deleteDependent,
-    
+    deleteContact,
 };
