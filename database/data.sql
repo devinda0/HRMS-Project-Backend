@@ -55,7 +55,7 @@ INSERT INTO leave_count (pay_grade, Annual, Casual, Maternity, No_pay) VALUES
 
 
 -- Populate employee table with at least 50 records
-INSERT INTO employee (first_name, last_name, email, address, birthday, marital_status, gender, contact_no, supervisor, job_title_id, pay_grade, employment_status, branch_id) VALUES
+INSERT INTO employee (name, email, address, birthday, marital_status, gender, contact_no, supervisor, job_title_id, pay_grade, employment_status, branch_id) VALUES
 ('Dimuth Hasaranga', 'dimuth.hasaranga@jupyter.com', '45 Temple Road, Colombo 05, Sri Lanka', '1985-03-15', 'Married', 'Male', '0712345678', NULL, 'JT0001', 'Executive', 'Permanent', 'BR001'),
 ('Tenil Rukshan', 'tenil.rukshan-- @jupyter.com', '23 Lake Drive, Kandy, Sri Lanka', '1988-07-22', 'Single', 'Male', '0723456789', 'EMP000001', 'JT0005', 'Level-2', 'Permanent', 'BR002'),
 ('Nethmi Oshadi', 'nethmi.oshadi@jupyter.com', '78 Beach Road, Galle, Sri Lanka', '1990-11-30', 'Married', 'Female', '0734567890', 'EMP000001', 'JT0003', 'Managerial', 'Permanent', 'BR003'),
