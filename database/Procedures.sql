@@ -621,16 +621,18 @@ DELIMITER //
 
 DELIMITER ;
 
+
+
 -- PROCEDURE FOR UPDATE EMPLOYEE DEPENDANT INFORMATION
 DELIMITER //
 
-CREATE PROCEDURE UPDATE_DEPENDANT_INFO(
-    IN p_dependant_id CHAR(9),
-    IN p_name VARCHAR(100),
-    IN p_employee_id CHAR(9),
-    IN p_birthday DATE,
-    IN p_relation VARCHAR(255),
-    IN p_gender ENUM('MALE', 'FEMALE')
+CREATE PROCEDURE UPDATE_DEPENDANT_INFO (
+    IN dependant_id CHAR(9),
+    IN name VARCHAR(100),
+    IN employee_id CHAR(9),
+    IN birthday DATE,
+    IN relation VARCHAR(255),
+    IN gender ENUM('MALE', 'FEMALE')
 )
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
@@ -641,16 +643,19 @@ BEGIN
 
     START TRANSACTION;
 
-        DELETE FROM dependant 
-        WHERE dependant.dependant_id = p_dependant_id;
+    UPDATE dependant
+    SET dependant.name = name,
+        dependant.employee_id = employee_id,
+        dependant.birthday = birthday,
+        dependant.relation = relation,
+        dependant.gender = gender
+    WHERE dependant.dependant_id = dependant_id;
 
-        INSERT INTO dependant (dependant_id, name, employee_id, birthday, relation, gender)
-        VALUES (p_dependant_id, p_name, p_employee_id, p_birthday, p_relation, p_gender);
-    
+    SELECT ROW_COUNT() AS affectedRows;
+
     COMMIT;
 END //
 
 DELIMITER ;
-
 
 

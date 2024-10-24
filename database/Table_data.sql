@@ -109,3 +109,17 @@ INSERT INTO dependant (name, employee_id, birthday, relation, gender) VALUES
 ('Rachel Norton', 'EMP000008', '2022-07-02', 'Child', 'MALE'),
 ('Jeffrey Jensen', 'EMP000012', '2003-11-12', 'Parent', 'MALE');
 
+
+INSERT INTO emergency_contact (employee_id, contact_no, relationship, contact_name)
+VALUES 
+('EMP000001', 9876543210, 'Father', 'John Doe'),
+('EMP000001', 9123456789, 'Mother', 'Jane Doe'),
+('EMP000002', 9871234560, 'Spouse', 'Emily Smith'),
+('EMP000002', 9987654321, 'Brother', 'Michael Smith'),
+('EMP000003', 9876541234, 'Sister', 'Sophia Johnson'),
+('EMP000003', 9123123123, 'Friend', 'Lucas Brown'),
+('EMP000004', 8888888888, 'Father', 'David Clark'),
+('EMP000005', 7777777777, 'Spouse', 'Sarah Clark'),
+('EMP000006', 6666666666, 'Mother', 'Emma White'),
+('EMP000007', 9999999999, 'Uncle', 'Jacob Wilson');
+
