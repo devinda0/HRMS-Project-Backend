@@ -205,33 +205,186 @@ DELIMITER ;
 
 -- STORED PROCEDURE FOR GETTING EMPLOYEES BY DEPARTMENT
 DELIMITER //
-
-CREATE PROCEDURE GET_EMPLOYEES_BY_DEPARTMENT(
-    IN p_department_name VARCHAR(100)
-)
-BEGIN
-    SELECT 
-        e.employee_id,
-        e.name,
-        e.email,
-        e.address,
-        e.birthday,
-        e.marital_status,
-        e.supervisor,
-        jt.job_title,
-        pg.pay_grade,
-        e.employment_status,
-        b.branch_name
-    FROM employee e
-    JOIN job_title jt ON e.job_title_id = jt.job_title_id
-    JOIN pay_grade pg ON e.pay_grade = pg.pay_grade
-    JOIN branch b ON e.branch_id = b.branch_id
-    JOIN department d ON jt.department_name = d.department_name
-    WHERE d.department_name = p_department_name;
-END;
+    CREATE PROCEDURE GET_EMPLOYEES_BY_DEPARTMENT(
+        IN department_name VARCHAR(100)
+    )
+    BEGIN
+        SELECT * FROM employee_details WHERE employee_details.department_name = department_name;
+    END;
 //
-
 DELIMITER ;
+
+-- STORED PROCEDURE FOR GETTING EMPLOYEES BY JOB TITLE
+    CREATE PROCEDURE GET_EMPLOYEES_BY_JOB_TITLE(
+        IN job_title VARCHAR(100)
+    )
+    BEGIN
+        SELECT * FROM employee_details WHERE employee_details.job_title = job_title;
+    END;
+//
+DELIMITER ;
+
+-- STORED PROCEDURE FOR GETTING EMPLOYEES BY PAY GRADE
+DELIMITER //
+    CREATE PROCEDURE GET_EMPLOYEES_BY_PAY_GRADE(
+        IN pay_grade VARCHAR(100)
+    )
+    BEGIN
+        SELECT * FROM employee_details WHERE employee_details.pay_grade = pay_grade;
+    END;
+//
+DELIMITER ;
+
+-- STORED PROCEDURE FOR GETTING EMPLOYEES BY BRANCH
+DELIMITER //
+    CREATE PROCEDURE GET_EMPLOYEES_BY_BRANCH(
+        IN branch_name VARCHAR(100)
+    )
+    BEGIN
+        SELECT * FROM employee_details WHERE employee_details.branch_name = branch_name;
+    END;
+//
+DELIMITER ;
+
+-- STORED PROCEDURE FOR GETTING EMPLOYEES BY EMPLOYMENT STATUS
+DELIMITER //
+    CREATE PROCEDURE GET_EMPLOYEES_BY_EMPLOYMENT_STATUS(
+        IN employment_status ENUM('Intern_Fulltime', 'Intern_Parttime', 'Contract_Fulltime', 'Contract_Parttime', 'Permanent', 'Freelance')
+    )
+    BEGIN
+        SELECT * FROM employee_details WHERE employee_details.employment_status = employment_status;
+    END;
+//
+DELIMITER ;
+
+
+-- STORED PROCEDURE FOR GETTING LEAVE COUNT BY DEPARTMENT
+DELIMITER //
+    CREATE PROCEDURE GET_LEAVE_COUNT_BY_DEPARTMENT(
+        IN fromDate DATE,
+        IN toDate DATE
+    )
+    BEGIN
+        SELECT
+            e.department_name,
+            SUM(DATEDIFF(l.end_date, l.start_date) + 1) AS count
+        FROM leaves l
+            JOIN employee_details e ON l.employee_id = e.employee_id
+        WHERE l.leave_status = 'Approved' AND l.start_date >= fromDate AND l.end_date <= toDate
+        GROUP BY e.department_name;
+    END;
+//
+DELIMITER ;
+
+-- STORED PROCEDURE FOR GETTING LEAVE COUNT BY JOB TITLE
+DELIMITER //
+    CREATE PROCEDURE GET_LEAVE_COUNT_BY_JOB_TITLE(
+        IN fromDate DATE,
+        IN toDate DATE
+    )
+    BEGIN
+        SELECT
+            e.job_title,
+            SUM(DATEDIFF(l.end_date, l.start_date) + 1) AS count
+        FROM leaves l
+            JOIN employee_details e ON l.employee_id = e.employee_id
+        WHERE l.leave_status = 'Approved' AND l.start_date >= fromDate AND l.end_date <= toDate
+        GROUP BY e.job_title;
+    END;
+//
+DELIMITER ;
+
+-- STORED PROCEDURE FOR GETTING LEAVE COUNT BY PAY GRADE
+DELIMITER //
+    CREATE PROCEDURE GET_LEAVE_COUNT_BY_PAY_GRADE(
+        IN fromDate DATE,
+        IN toDate DATE
+    )
+    BEGIN
+        SELECT
+            e.pay_grade,
+            SUM(DATEDIFF(l.end_date, l.start_date) + 1) AS count
+        FROM leaves l
+            JOIN employee_details e ON l.employee_id = e.employee_id
+        WHERE l.leave_status = 'Approved' AND l.start_date >= fromDate AND l.end_date <= toDate
+        GROUP BY e.pay_grade;
+    END;
+//
+DELIMITER ;
+
+-- STORED PROCEDURE FOR GETTING LEAVE COUNT BY BRANCH
+DELIMITER //
+    CREATE PROCEDURE GET_LEAVE_COUNT_BY_BRANCH(
+        IN fromDate DATE,
+        IN toDate DATE
+    )
+    BEGIN
+        SELECT
+            e.branch_name,
+            SUM(DATEDIFF(l.end_date, l.start_date) + 1) AS count
+        FROM leaves l
+            JOIN employee_details e ON l.employee_id = e.employee_id
+        WHERE l.leave_status = 'Approved' AND l.start_date >= fromDate AND l.end_date <= toDate
+        GROUP BY e.branch_name;
+    END;
+//
+DELIMITER ;
+
+-- STORED PROCEDURE FOR GETTING LEAVE COUNT BY EMPLOYMENT STATUS
+DELIMITER //
+    CREATE PROCEDURE GET_LEAVE_COUNT_BY_EMPLOYMENT_STATUS(
+        IN fromDate DATE,
+        IN toDate DATE
+    )
+    BEGIN
+        SELECT
+            e.employment_status,
+            SUM(DATEDIFF(l.end_date, l.start_date) + 1) AS count
+        FROM leaves l
+            JOIN employee_details e ON l.employee_id = e.employee_id
+        WHERE l.leave_status = 'Approved' AND l.start_date >= fromDate AND l.end_date <= toDate
+        GROUP BY e.employment_status;
+    END;
+//
+DELIMITER ;
+
+-- STORED PROCEDURE FOR GETTING ALL BRANCHES
+DELIMITER //
+    CREATE PROCEDURE GET_ALL_BRANCHES()
+    BEGIN
+        SELECT * FROM branch;
+    END;
+//
+DELIMITER ;
+
+-- STORED PROCEDURE FOR GETTING ALL DEPARTMENTS
+DELIMITER //
+    CREATE PROCEDURE GET_ALL_DEPARTMENTS()
+    BEGIN
+        SELECT * FROM department;
+    END;
+//
+DELIMITER ;
+
+-- STORED PROCEDURE FOR GETTING ALL JOB TITLES
+DELIMITER //
+    CREATE PROCEDURE GET_ALL_JOB_TITLES()
+    BEGIN
+        SELECT * FROM job_title;
+    END;
+//
+DELIMITER ;
+
+-- STORED PROCEDURE FOR GETTING ALL PAY GRADES
+DELIMITER //
+    CREATE PROCEDURE GET_ALL_PAY_GRADES()
+    BEGIN
+        SELECT * FROM pay_grade;
+    END;
+//
+DELIMITER ;
+
+
 
 -- STORED PROCEDURE FOR GETTING TOTAL LEAVES BY DEPARTMENT AND PERIOD
 DELIMITER //
@@ -282,33 +435,7 @@ END;
 DELIMITER ;
 
 
--- STORED PROCEDURE FOR GETTING EMPLOYEES WITH PAST EXPERIENCE
-DELIMITER //
 
-CREATE PROCEDURE GET_EMPLOYEES_WITH_PAST_EXPERIENCE()
-BEGIN
-    SELECT 
-        e.employee_id,
-        e.name,
-        e.email,
-        jt.job_title,
-        pg.pay_grade,
-        e.employment_status,
-        b.branch_name,
-        av.value AS experience
-    FROM employee e
-    JOIN job_title jt ON e.job_title_id = jt.job_title_id
-    JOIN pay_grade pg ON e.pay_grade = pg.pay_grade
-    JOIN branch b ON e.branch_id = b.branch_id
-    JOIN attribute_value av ON e.employee_id = av.employee_id
-    JOIN employee_attribute ea ON av.attribute_id = ea.attribute_id
-    WHERE ea.attribute_name = 'Experience'
-      AND av.value IS NOT NULL
-      AND TRIM(av.value) <> '';
-END;
-//
-
-DELIMITER ;
 
 -----------------------------------PROCEDURES FOR EMPLOYEE MODULE--------------------------------------
 
