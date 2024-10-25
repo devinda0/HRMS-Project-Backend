@@ -9,6 +9,7 @@ const cookieParser = require('cookie-parser');
 const absenceModule = require('./modules/absence');
 const userModule = require('./modules/user');
 const pimModule = require('./modules/pim');
+const reportModule = require('./modules/reports');
 
 app.use(cors({
     origin: 'http://localhost:3000',
@@ -37,6 +38,7 @@ app.post('/signup', (req, res) => {
 });
 
 app.use('/pim', pimModule);
+app.use('/report', reportModule);
 
 app.use(authenticateToken);
 
