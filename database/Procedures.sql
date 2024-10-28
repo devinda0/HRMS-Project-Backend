@@ -215,6 +215,7 @@ DELIMITER //
 DELIMITER ;
 
 -- STORED PROCEDURE FOR GETTING EMPLOYEES BY JOB TITLE
+DELIMITER //
     CREATE PROCEDURE GET_EMPLOYEES_BY_JOB_TITLE(
         IN job_title VARCHAR(100)
     )
@@ -385,59 +386,7 @@ DELIMITER //
 DELIMITER ;
 
 
-
--- STORED PROCEDURE FOR GETTING TOTAL LEAVES BY DEPARTMENT AND PERIOD
-DELIMITER //
-
-CREATE PROCEDURE GET_TOTAL_LEAVES_BY_DEPARTMENT_PERIOD(
-    IN p_department_name VARCHAR(100),
-    IN p_start_date DATE,
-    IN p_end_date DATE
-)
-BEGIN
-    SELECT 
-        l.leave_type,
-        COUNT(l.leave_id) AS total_leaves
-    FROM leaves l
-    JOIN employee e ON l.employee_id = e.employee_id
-    JOIN job_title jt ON e.job_title_id = jt.job_title_id
-    WHERE jt.department_name = p_department_name
-      AND l.start_date >= p_start_date
-      AND l.end_date <= p_end_date
-      AND l.leave_status IN ('Approved', 'Pending') -- Considering only relevant statuses
-    GROUP BY l.leave_type;
-END;
-//
-
-
--- STORED PROCEDURE FOR GETTING EMPLOYEE REPORTS GROUPED BY JOB TITLE, DEPARTMENT, AND PAY GRADE
-DELIMITER //
-
-CREATE PROCEDURE GET_EMPLOYEE_REPORTS_GROUPED()
-BEGIN
-    SELECT 
-        d.department_name,
-        jt.job_title,
-        pg.pay_grade,
-        COUNT(e.employee_id) AS total_employees,
-        AVG(pg.basic_salary) AS average_salary,
-        SUM(CASE WHEN e.employment_status = 'Permanent' THEN 1 ELSE 0 END) AS permanent_employees,
-        SUM(CASE WHEN e.employment_status LIKE 'Contract%' THEN 1 ELSE 0 END) AS contract_employees
-    FROM employee e
-    JOIN job_title jt ON e.job_title_id = jt.job_title_id
-    JOIN department d ON jt.department_name = d.department_name
-    JOIN pay_grade pg ON e.pay_grade = pg.pay_grade
-    GROUP BY d.department_name, jt.job_title, pg.pay_grade
-    ORDER BY d.department_name, jt.job_title, pg.pay_grade;
-END;
-//
-
-DELIMITER ;
-
-
-
-
------------------------------------PROCEDURES FOR EMPLOYEE MODULE--------------------------------------
+-----------------------------------PROCEDURES FOR PIM MODULE--------------------------------------
 
 -- PROCEDURE FOR ADDING EMPLOYEE
 DELIMITER //
@@ -474,9 +423,24 @@ DELIMITER ;
 
 -- PROCEDURE FOR GETTING ALL EMPLOYEES
 DELIMITER //
-    CREATE PROCEDURE GET_ALL_EMPLOYEES()
+    CREATE PROCEDURE GET_ALL_EMPLOYEES(
+        IN limit_start INT,
+        IN record_count INT
+    )
     BEGIN
-        SELECT * FROM employee_details;
+        SELECT * 
+        FROM employee_details
+        LIMIT record_count
+        OFFSET limit_start;
+    END;
+//
+DELIMITER ;
+
+-- PROCEDURE FOR GETTING EMPLOYEE COUNT
+DELIMITER //
+    CREATE PROCEDURE GET_EMPLOYEE_COUNT()
+    BEGIN
+        SELECT COUNT(*) AS count FROM employee;
     END;
 //
 DELIMITER ;
@@ -487,7 +451,7 @@ DELIMITER //
         IN employee_id CHAR(9)
     )
     BEGIN
-        SELECT * FROM employee WHERE employee.employee_id = employee_id;
+        SELECT * FROM employee_details e WHERE e.employee_id = employee_id;
     END;
 //
 DELIMITER ;
@@ -566,6 +530,57 @@ DELIMITER //
 
             INSERT INTO dependant (name, employee_id, birthday, relation, gender) VALUES
                 (name, employee_id, birthday, relation, gender);
+        
+        COMMIT;
+    END;
+//
+DELIMITER ;
+
+-- PROCEDURE FOR UPDATING DEPENDANT BY DEPENDANT ID
+DELIMITER //
+    CREATE PROCEDURE UPDATE_DEPENDANT(
+        IN dependant_id CHAR(36),
+        IN name VARCHAR(100),
+        IN birthday DATE,
+        IN relation VARCHAR(255),
+        IN gender ENUM('MALE', 'FEMALE')
+    )
+    BEGIN
+        DECLARE EXIT HANDLER FOR SQLEXCEPTION
+        BEGIN
+            ROLLBACK;
+            RESIGNAL;
+        END;
+
+        START TRANSACTION;
+
+            UPDATE dependant SET 
+                dependant.name = name,
+                dependant.birthday = birthday,
+                dependant.relation = relation,
+                dependant.gender = gender
+            WHERE dependant.dependant_id = dependant_id;
+        
+        COMMIT;
+    END;
+//
+DELIMITER ;
+
+-- PROCEDURE FOR DELETING DEPENDANT BY DEPENDANT ID
+DELIMITER //
+    CREATE PROCEDURE DELETE_DEPENDANT(
+        IN dependant_id CHAR(36)
+    )
+    BEGIN
+        DECLARE EXIT HANDLER FOR SQLEXCEPTION
+        BEGIN
+            ROLLBACK;
+            RESIGNAL;
+        END;
+
+        START TRANSACTION;
+
+            DELETE FROM dependant WHERE dependant.dependant_id = dependant_id;
         
         COMMIT;
     END;
@@ -700,7 +715,8 @@ DELIMITER ;
 DELIMITER //
     CREATE PROCEDURE ADD_EMERGENCY_CONTACT(
         IN employee_id CHAR(9),
-        IN relation VARCHAR(100),
+        IN contact_name VARCHAR(100),
+        IN relationship VARCHAR(100),
         IN contact_no INT
     )
     BEGIN
@@ -712,8 +728,8 @@ DELIMITER //
 
         START TRANSACTION;
 
-            INSERT INTO emergency_contact (employee_id, relation, contact_no) VALUES
-                (employee_id, relation, contact_no);
+            INSERT INTO emergency_contact (employee_id, contact_name , relationship, contact_no) VALUES
+                (employee_id, contact_name, relationship, contact_no);
         
         COMMIT;
     END;
@@ -724,9 +740,10 @@ DELIMITER ;
 DELIMITER //
     CREATE PROCEDURE UPDATE_EMERGENCY_CONTACT(
         IN employee_id CHAR(9),
-        IN new_relation VARCHAR(100),
         IN old_contact_no INT,
-        IN new_contact_no INT
+        IN new_contact_no INT,
+        IN relationship VARCHAR(100),
+        IN contact_name VARCHAR(100)
     )
     BEGIN
         DECLARE EXIT HANDLER FOR SQLEXCEPTION
@@ -739,13 +756,34 @@ DELIMITER //
 
             DELETE FROM emergency_contact WHERE emergency_contact.employee_id = employee_id AND emergency_contact.contact_no = old_contact_no;
 
-            INSERT INTO emergency_contact (employee_id, relation, contact_no) VALUES
-                (employee_id, new_relation, new_contact_no);
+            INSERT INTO emergency_contact (employee_id, contact_no, relationship, contact_name) VALUES
+                (employee_id, new_contact_no, relationship, contact_name);
         
         COMMIT;
     END;
 //
+DELIMITER ;
 
+-- PROCEDURE FOR DELETING EMERGENCY CONTACT
+DELIMITER //
+    CREATE PROCEDURE DELETE_EMERGENCY_CONTACT(
+        IN employee_id CHAR(9),
+        IN contact_no INT
+    )
+    BEGIN
+        DECLARE EXIT HANDLER FOR SQLEXCEPTION
+        BEGIN
+            ROLLBACK;
+            RESIGNAL;
+        END;
+
+        START TRANSACTION;
+
+            DELETE FROM emergency_contact WHERE emergency_contact.employee_id = employee_id AND emergency_contact.contact_no = contact_no;
+        
+        COMMIT;
+    END;
+//
 DELIMITER ;
 
 
