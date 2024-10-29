@@ -53,61 +53,58 @@ INSERT INTO leave_count (pay_grade, Annual, Casual, Maternity, No_pay) VALUES
 ('Senior Managerial', 28, 10, 84, 50),
 ('Executive', 28, 14, 84, 50);
 
-
 -- Populate employee table with at least 50 records
-INSERT INTO employee (name, email, address, birthday, marital_status, supervisor, job_title_id, pay_grade, employment_status, branch_id) VALUES
-('Dimuth Hasaranga', 'dimuth.hasaranga@jupyter.com', '45 Temple Road, Colombo 05, Sri Lanka', '1985-03-15', 'Married', NULL, 'JT0001', 'Executive', 'Permanent', 'BR001'),
-('Tenil Rukshan', 'tenil.rukshan-- @jupyter.com', '23 Lake Drive, Kandy, Sri Lanka', '1988-07-22', 'Single', 'EMP000001', 'JT0005', 'Level-2', 'Permanent', 'BR002'),
-('Nethmi Oshadi', 'nethmi.oshadi@jupyter.com', '78 Beach Road, Galle, Sri Lanka', '1990-11-30', 'Married', 'EMP000001', 'JT0003', 'Managerial', 'Permanent', 'BR003'),
-('Rahul Karim', 'rahu-- l.karim@jupyter.com', '12 Green Road, Dhaka 1205, Bangladesh', '1987-05-18', 'Married', 'EMP000001', 'JT0009', 'Senior Managerial', 'Permanent', 'BR004'),
-('Fatima Zahra', 'fatima.zahra@jupyter.com', '56 Jinnah Avenue, Karachi 75530, Pakistan', '1992-09-03', 'Single', 'EMP000001', 'JT0007', 'Managerial', 'Permanent', 'BR006'),
-('Chamathka Lakmali', 'chamathka.lakmali@jupyter.com', '34 Hill Street, Kandy, Sri Lanka', '1991-02-14', 'Married', 'EMP000002', 'JT0006', 'Level-2', 'Contract_Fulltime', 'BR002'),
-('Nuwan Pradeep', 'nuwan.-- pradeep@jupyter.com', '89 Marine Drive, Colombo 03, Sri Lanka', '1986-10-31', 'Divorced', 'EMP000001', 'JT0004', 'Managerial', 'Permanent', 'BR001'),
-('Ayesha Begum', 'ayesha.begum@jupyter.com', '23 Station Road, Chittagong 4000, Bangladesh', '1993-07-07', 'Single', 'EMP000004', 'JT0011', 'Level-1', 'Permanent', 'BR005'),
-('Muhammad Imran', 'muhammad.imran@jupyter.com', '78 The Mall, Lahore 54000, Pakistan', '1989-12-25', 'Married', 'EMP000005', 'JT0008', 'Level-2', 'Permanent', 'BR007'),
-('Sachini Nisansala', 'sachini.nisansala@jupyter.com', '56 Galle Face Terrace, Colombo 03, Sri Lanka', '1994-04-19', 'Single', 'EMP000001', 'JT0002', 'Level-1', 'Intern_Fulltime', 'BR001'),
-('Asanka Gurusinha', 'asanka.gurusinha@jupyter.com', '78 Park Street, Colombo 02, Sri Lanka', '1990-08-12', 'Single', 'EMP000007', 'JT0010', 'Level-1', 'Permanent', 'BR001'),
-('Nusrat Jahan', 'nusrat.jahan@jupyter.com', '34 Banani Road, Dhaka 1213, Bangladesh', '1992-05-20', 'Married', 'EMP000004', 'JT0012', 'Level-2', 'Permanent', 'BR004'),
-('Ahmed Raza', 'ahmed.raza@jupyter.com', '56 Clifton Road, Karachi 75600, Pakistan', '1988-11-15', 'Married', 'EMP000005', 'JT0013', 'Level-2', 'Permanent', 'BR006'),
-('Ramani Perera', 'ramani.perera@jupyter.com', '90 Galle Road, Colombo 04, Sri Lanka', '1991-03-25', 'Single', 'EMP000003', 'JT0014', 'Level-1', 'Contract_Fulltime', 'BR001'),
-('Farhan Ahmed', 'farhan.ahmed@jupyter.com', '23 Dhanmondi Road, Dhaka 1209, Bangladesh', '1989-07-30', 'Married', 'EMP000004', 'JT0010', 'Level-2', 'Permanent','BR005'),
-('Sana Malik', 'sana.malik@jupyter.com', '45 Gulberg Road, Lahore 54660, Pakistan', '1993-01-05', 'Single', 'EMP000009', 'JT0012', 'Level-1', 'Permanent', 'BR007'),
-('Dilshan Fernando', 'dilshan.fernando@jupyter.com', '67 Negombo Road, Negombo, Sri Lanka', '1987-09-18', 'Married', 'EMP000007', 'JT0011', 'Level-2', 'Permanent', 'BR001'),
-('Tahmina Akter', 'tahmina.akter@jupyter.com', '89 Uttara Sector 4, Dhaka 1230, Bangladesh', '1994-04-22', 'Single', 'EMP000012', 'JT0011', 'Level-1', 'Intern_Fulltime', 'BR004'),
-('Usman Tariq', 'usman.tariq@jupyter.com', '12 DHA Phase 5, Karachi 75500, Pakistan', '1990-12-10', 'Married', 'EMP000013', 'JT0010', 'Level-2', 'Permanent', 'BR006'),
-('Ishara Madushani', 'ishara.madushani@jupyter.com', '34 Kandy Road, Peradeniya, Sri Lanka', '1992-06-15', 'Single', 'EMP000002', 'JT0010', 'Level-1', 'Permanent', 'BR002'),
-('Zubair Hasan', 'zubair.hasan@jupyter.com', '56 Mirpur Road, Dhaka 1216, Bangladesh', '1988-02-28', 'Married', 'EMP000004', 'JT0001', 'Level-2', 'Permanent', 'BR004'),
-('Amna Riaz', 'amna.riaz@jupyter.com', '78 Model Town, Lahore 54700, Pakistan', '1991-10-05', 'Single', 'EMP000009', 'JT0002', 'Level-1', 'Contract_Fulltime', 'BR007'),
-('Chaminda Vaas', 'chaminda.vaas@jupyter.com', '90 Marine Drive, Galle, Sri Lanka', '1987-04-12', 'Married', 'EMP000003', 'JT0003', 'Level-2', 'Permanent', 'BR003'),
-('Nasreen Akhtar', 'nasreen.akhtar@jupyter.com', '23 Gulshan Circle 2, Dhaka 1212, Bangladesh', '1993-08-20', 'Single', 'EMP000012', 'JT0002', 'Level-1', 'Permanent', 'BR004'),
-('Imran Butt', 'imran.butt@jupyter.com', '45 Faisal Town, Lahore 54000, Pakistan', '1989-11-30', 'Married', 'EMP000013', 'JT0005', 'Level-2', 'Permanent', 'BR007'),
-('Nilushi Cooray', 'nilushi.cooray@jupyter.com', '67 Batticaloa Road, Trincomalee, Sri Lanka', '1992-03-15', 'Single', 'EMP000007', 'JT0006', 'Level-1', 'Permanent', 'BR001'),
-('Rahim Uddin', 'rahim.uddin@jupyter.com', '89 Baridhara DOHS, Dhaka 1206, Bangladesh', '1990-07-25', 'Married', 'EMP000004', 'JT0007', 'Level-2', 'Permanent', 'BR005'),
-('Sadia Nawaz', 'sadia.nawaz@jupyter.com', '12 Johar Town, Lahore 54782, Pakistan', '1994-01-10', 'Single', 'EMP000009', 'JT0008', 'Level-1', 'Intern_Fulltime', 'BR007'),
-('Tharanga Paranavitana', 'tharanga.paranavitana@jupyter.com', '34 Matale Road, Kandy, Sri Lanka', '1988-05-18', 'Married', 'EMP000002', 'JT0009', 'Level-2', 'Permanent', 'BR002'),
-('Farhana Islam', 'farhana.islam@jupyter.com', '56 Mohammadpur, Dhaka 1207, Bangladesh', '1991-09-22', 'Single', 'EMP000012', 'JT0003', 'Level-1', 'Permanent', 'BR004'),
-('Yasir Shah', 'yasir.shah@jupyter.com', '78 Bahria Town, Karachi 75340, Pakistan', '1987-12-05', 'Married', 'EMP000005', 'JT0001', 'Level-2', 'Permanent', 'BR006'),
-('Sanduni Abeywickrama', 'sanduni.abeywickrama@jupyter.com', '90 Matara Road, Hambantota, Sri Lanka', '1993-04-30', 'Single', 'EMP000003', 'JT0002', 'Level-1', 'Contract_Fulltime', 'BR003'),
-('Kamal Hossain', 'kamal.hossain@jupyter.com', '23 Uttara Sector 7, Dhaka 1230, Bangladesh', '1989-08-15', 'Married', 'EMP000004', 'JT0003', 'Level-2', 'Permanent', 'BR004'),
-('Asma Khalid', 'asma.khalid@jupyter.com', '45 Cantt Area, Lahore 54810, Pakistan', '1992-02-20', 'Single', 'EMP000013', 'JT0004', 'Level-1', 'Permanent', 'BR007'),
-('Rangana Herath', 'rangana.herath@jupyter.com', '67 Nuwara Eliya Road, Badulla, Sri Lanka', '1988-06-25', 'Married', 'EMP000007', 'JT0005', 'Level-2', 'Permanent', 'BR001'),
-('Shabnam Akter', 'shabnam.akter@jupyter.com', '89 Bashundhara R/A, Dhaka 1229, Bangladesh', '1994-10-12', 'Single', 'EMP000012', 'JT0006', 'Level-1', 'Intern_Fulltime', 'BR005'),
-('Saad Ahmed', 'saad.ahmed@jupyter.com', '12 Askari Housing, Karachi 75100, Pakistan', '1990-01-30', 'Married', 'EMP000005', 'JT0007', 'Level-2', 'Permanent', 'BR006'),
-('Hansini Edirisinghe', 'hansini.edirisinghe@jupyter.com', '34 Kurunegala Road, Chilaw, Sri Lanka', '1991-05-05', 'Single', 'EMP000003', 'JT0008', 'Level-1', 'Permanent', 'BR001'),
-('Mahbub Alam', 'mahbub.alam@jupyter.com', '56 Khilgaon, Dhaka 1219, Bangladesh', '1987-09-10', 'Married', 'EMP000004', 'JT0009', 'Level-2', 'Permanent', 'BR004'),
-('Saba Qamar', 'saba.qamar@jupyter.com', '78 Wapda Town, Lahore 54000, Pakistan', '1993-03-15', 'Single', 'EMP000009', 'JT0002', 'Level-1', 'Contract_Fulltime', 'BR007'),
-('Lasith Malinga', 'lasith.malinga@jupyter.com', '90 Galle Face Road, Colombo 01, Sri Lanka', '1989-07-20', 'Married', 'EMP000001', 'JT0001', 'Level-2', 'Permanent', 'BR001'),
-('Sabina Yasmin', 'sabina.yasmin@jupyter.com', '23 Motijheel, Dhaka 1000, Bangladesh', '1992-11-25', 'Single', 'EMP000004', 'JT0002', 'Level-1', 'Permanent', 'BR004'),
-('Fawad Khan', 'fawad.khan@jupyter.com', '45 DHA Phase 1, Lahore 54792, Pakistan', '1988-04-30', 'Married', 'EMP000005', 'JT0003', 'Level-2', 'Permanent', 'BR006'),
-('Sheshadri Priyasad', 'sheshadri.priyasad@jupyter.com', '67 Anuradhapura Road, Polonnaruwa, Sri Lanka', '1994-08-05', 'Single', 'EMP000003', 'JT0004', 'Level-1', 'Intern_Fulltime', 'BR003'),
-('Najmul Hossain', 'najmul.hossain@jupyter.com', '89 Dhanmondi 32, Dhaka 1209, Bangladesh', '1990-12-10', 'Married', 'EMP000012', 'JT0005', 'Level-2', 'Permanent', 'BR005'),
-('Hira Mani', 'hira.mani@jupyter.com', '12 Gulshan-e-Iqbal, Karachi 75300, Pakistan', '1991-02-15', 'Single', 'EMP000013', 'JT0006', 'Level-1', 'Permanent', 'BR006'),
-('Kusal Mendis', 'kusal.mendis@jupyter.com', '34 Ratnapura Road, Embilipitiya, Sri Lanka', '1987-06-20', 'Married', 'EMP000007', 'JT0007', 'Level-2', 'Permanent', 'BR001'),
-('Nusrat Imroz', 'nusrat.imroz@jupyter.com', '56 Mirpur DOHS, Dhaka 1216, Bangladesh', '1993-10-25', 'Single', 'EMP000004', 'JT0008', 'Level-1', 'Contract_Fulltime', 'BR004'),
-('Mahira Khan', 'mahira.khan@jupyter.com', '78 Valencia Town, Lahore 54000, Pakistan', '1989-01-30', 'Married', 'EMP000009', 'JT0009', 'Level-2', 'Permanent', 'BR007'),
-('Dinesh Chandimal', 'dinesh.chandimal@jupyter.com', '90 Katugastota Road, Kandy, Sri Lanka', '1992-05-05', 'Single', 'EMP000002', 'JT0007', 'Level-1', 'Permanent', 'BR002');
-
--- Continue with more employee records up to EMP000050
+INSERT INTO employee (name, email, address, gender, birthday, phone, marital_status, supervisor, job_title_id, pay_grade, employment_status, branch_id) VALUES
+('Dimuth Hasaranga', 'dimuth.hasaranga@jupyter.com', '45 Temple Road, Colombo 05, Sri Lanka', 'MALE', '1985-03-15', '0768231749', 'Married', NULL, 'JT0001', 'Executive', 'Permanent', 'BR001'),
+('Tenil Rukshan', 'tenil.rukshan-- @jupyter.com', '23 Lake Drive, Kandy, Sri Lanka', 'MALE', '1988-07-22', '0768231749', 'Single', 'EMP000001', 'JT0005', 'Level-2', 'Permanent', 'BR002'),
+('Nethmi Oshadi', 'nethmi.oshadi@jupyter.com', '78 Beach Road, Galle, Sri Lanka', 'MALE', '1990-11-30', '0768231749', 'Married', 'EMP000001', 'JT0003', 'Managerial', 'Permanent', 'BR003'),
+('Rahul Karim', 'rahu-- l.karim@jupyter.com', '12 Green Road, Dhaka 1205, Bangladesh', 'MALE', '1987-05-18', '0768231749', 'Married', 'EMP000001', 'JT0009', 'Senior Managerial', 'Permanent', 'BR004'),
+('Fatima Zahra', 'fatima.zahra@jupyter.com', '56 Jinnah Avenue, Karachi 75530, Pakistan',  'MALE', '1992-09-03', '0768231749', 'Single', 'EMP000001', 'JT0007', 'Managerial', 'Permanent', 'BR006'),
+('Chamathka Lakmali', 'chamathka.lakmali@jupyter.com', '34 Hill Street, Kandy, Sri Lanka', 'MALE', '1991-02-14', '0768231749', 'Married', 'EMP000002', 'JT0006', 'Level-2', 'Contract_Fulltime', 'BR002'),
+('Nuwan Pradeep', 'nuwan.-- pradeep@jupyter.com', '89 Marine Drive, Colombo 03, Sri Lanka', 'MALE', '1986-10-31', '0768231749', 'Divorced', 'EMP000001', 'JT0004', 'Managerial', 'Permanent', 'BR001'),
+('Ayesha Begum', 'ayesha.begum@jupyter.com', '23 Station Road, Chittagong 4000, Bangladesh', 'MALE', '1993-07-07', '0768231749', 'Single', 'EMP000004', 'JT0011', 'Level-1', 'Permanent', 'BR005'),
+('Muhammad Imran', 'muhammad.imran@jupyter.com', '78 The Mall, Lahore 54000, Pakistan', 'MALE', '1989-12-25', '0768231749', 'Married', 'EMP000005', 'JT0008', 'Level-2', 'Permanent', 'BR007'),
+('Sachini Nisansala', 'sachini.nisansala@jupyter.com', '56 Galle Face Terrace, Colombo 03, Sri Lanka', 'MALE', '1994-04-19', '0768231749', 'Single', 'EMP000001', 'JT0002', 'Level-1', 'Intern_Fulltime', 'BR001'),
+('Asanka Gurusinha', 'asanka.gurusinha@jupyter.com', '78 Park Street, Colombo 02, Sri Lanka', 'MALE', '1990-08-12', '0768231749', 'Single', 'EMP000007', 'JT0010', 'Level-1', 'Permanent', 'BR001'),
+('Nusrat Jahan', 'nusrat.jahan@jupyter.com', '34 Banani Road, Dhaka 1213, Bangladesh', 'MALE', '1992-05-20', '0768231749', 'Married', 'EMP000004', 'JT0012', 'Level-2', 'Permanent', 'BR004'),
+('Ahmed Raza', 'ahmed.raza@jupyter.com', '56 Clifton Road, Karachi 75600, Pakistan', 'MALE', '1988-11-15', '0768231749', 'Married', 'EMP000005', 'JT0013', 'Level-2', 'Permanent', 'BR006'),
+('Ramani Perera', 'ramani.perera@jupyter.com', '90 Galle Road, Colombo 04, Sri Lanka', 'MALE', '1991-03-25','0768231749',  'Single', 'EMP000003', 'JT0014', 'Level-1', 'Contract_Fulltime', 'BR001'),
+('Farhan Ahmed', 'farhan.ahmed@jupyter.com', '23 Dhanmondi Road, Dhaka 1209, Bangladesh', 'MALE', '1989-07-30', '0768231749', 'Married', 'EMP000004', 'JT0010', 'Level-2', 'Permanent','BR005'),
+('Sana Malik', 'sana.malik@jupyter.com', '45 Gulberg Road, Lahore 54660, Pakistan', 'MALE', '1993-01-05', '0768231749', 'Single', 'EMP000009', 'JT0012', 'Level-1', 'Permanent', 'BR007'),
+('Dilshan Fernando', 'dilshan.fernando@jupyter.com', '67 Negombo Road, Negombo, Sri Lanka', 'MALE', '1987-09-18', '0768231749', 'Married', 'EMP000007', 'JT0011', 'Level-2', 'Permanent', 'BR001'),
+('Tahmina Akter', 'tahmina.akter@jupyter.com', '89 Uttara Sector 4, Dhaka 1230, Bangladesh', 'MALE', '1994-04-22','0768231749', 'Single', 'EMP000012', 'JT0011', 'Level-1', 'Intern_Fulltime', 'BR004'),
+('Usman Tariq', 'usman.tariq@jupyter.com', '12 DHA Phase 5, Karachi 75500, Pakistan', 'MALE', '1990-12-10', '0768231749', 'Married', 'EMP000013', 'JT0010', 'Level-2', 'Permanent', 'BR006'),
+('Ishara Madushani', 'ishara.madushani@jupyter.com', '34 Kandy Road, Peradeniya, Sri Lanka', 'MALE', '1992-06-15', '0768231749', 'Single', 'EMP000002', 'JT0010', 'Level-1', 'Permanent', 'BR002'),
+('Zubair Hasan', 'zubair.hasan@jupyter.com', '56 Mirpur Road, Dhaka 1216, Bangladesh', 'MALE', '1988-02-28', '0768231749', 'Married', 'EMP000004', 'JT0001', 'Level-2', 'Permanent', 'BR004'),
+('Amna Riaz', 'amna.riaz@jupyter.com', '78 Model Town, Lahore 54700, Pakistan', 'MALE', '1991-10-05', '0768231749', 'Single', 'EMP000009', 'JT0002', 'Level-1', 'Contract_Fulltime', 'BR007'),
+('Chaminda Vaas', 'chaminda.vaas@jupyter.com', '90 Marine Drive, Galle, Sri Lanka', 'MALE', '1987-04-12', '0768231749', 'Married', 'EMP000003', 'JT0003', 'Level-2', 'Permanent', 'BR003'),
+('Nasreen Akhtar', 'nasreen.akhtar@jupyter.com', '23 Gulshan Circle 2, Dhaka 1212, Bangladesh', 'MALE', '1993-08-20', '0768231749', 'Single', 'EMP000012', 'JT0002', 'Level-1', 'Permanent', 'BR004'),
+('Imran Butt', 'imran.butt@jupyter.com', '45 Faisal Town, Lahore 54000, Pakistan', 'MALE', '1989-11-30','0768231749',  'Married', 'EMP000013', 'JT0005', 'Level-2', 'Permanent', 'BR007'),
+('Nilushi Cooray', 'nilushi.cooray@jupyter.com', '67 Batticaloa Road, Trincomalee, Sri Lanka', 'MALE', '1992-03-15', '0768231749','Single', 'EMP000007', 'JT0006', 'Level-1', 'Permanent', 'BR001'),
+('Rahim Uddin', 'rahim.uddin@jupyter.com', '89 Baridhara DOHS, Dhaka 1206, Bangladesh', 'MALE', '1990-07-25', '0768231749','Married', 'EMP000004', 'JT0007', 'Level-2', 'Permanent', 'BR005'),
+('Sadia Nawaz', 'sadia.nawaz@jupyter.com', '12 Johar Town, Lahore 54782, Pakistan', 'MALE', '1994-01-10','0768231749', 'Single', 'EMP000009', 'JT0008', 'Level-1', 'Intern_Fulltime', 'BR007'),
+('Tharanga Paranavitana', 'tharanga.paranavitana@jupyter.com', '34 Matale Road, Kandy, Sri Lanka', 'MALE', '1988-05-18', '0768231749','Married', 'EMP000002', 'JT0009', 'Level-2', 'Permanent', 'BR002'),
+('Farhana Islam', 'farhana.islam@jupyter.com', '56 Mohammadpur, Dhaka 1207, Bangladesh', 'MALE',  '1991-09-22', '0768231749','Single', 'EMP000012', 'JT0003', 'Level-1', 'Permanent', 'BR004'),
+('Yasir Shah', 'yasir.shah@jupyter.com', '78 Bahria Town, Karachi 75340, Pakistan', 'MALE', '1987-12-05','0768231749', 'Married', 'EMP000005', 'JT0001', 'Level-2', 'Permanent', 'BR006'),
+('Sanduni Abeywickrama', 'sanduni.abeywickrama@jupyter.com', '90 Matara Road, Hambantota, Sri Lanka', 'MALE',  '1993-04-30', '0768231749','Single', 'EMP000003', 'JT0002', 'Level-1', 'Contract_Fulltime', 'BR003'),
+('Kamal Hossain', 'kamal.hossain@jupyter.com', '23 Uttara Sector 7, Dhaka 1230, Bangladesh', 'MALE', '1989-08-15', '0768231749','Married', 'EMP000004', 'JT0003', 'Level-2', 'Permanent', 'BR004'),
+('Asma Khalid', 'asma.khalid@jupyter.com', '45 Cantt Area, Lahore 54810, Pakistan', 'MALE', '1992-02-20', '0768231749','Single', 'EMP000013', 'JT0004', 'Level-1', 'Permanent', 'BR007'),
+('Rangana Herath', 'rangana.herath@jupyter.com', '67 Nuwara Eliya Road, Badulla, Sri Lanka', 'MALE', '1988-06-25','0768231749', 'Married', 'EMP000007', 'JT0005', 'Level-2', 'Permanent', 'BR001'),
+('Shabnam Akter', 'shabnam.akter@jupyter.com', '89 Bashundhara R/A, Dhaka 1229, Bangladesh', 'MALE', '1994-10-12','0768231749', 'Single', 'EMP000012', 'JT0006', 'Level-1', 'Intern_Fulltime', 'BR005'),
+('Saad Ahmed', 'saad.ahmed@jupyter.com', '12 Askari Housing, Karachi 75100, Pakistan', 'MALE', '1990-01-30', '0768231749','Married', 'EMP000005', 'JT0007', 'Level-2', 'Permanent', 'BR006'),
+('Hansini Edirisinghe', 'hansini.edirisinghe@jupyter.com', '34 Kurunegala Road, Chilaw, Sri Lanka', 'MALE', '1991-05-05','0768231749', 'Single', 'EMP000003', 'JT0008', 'Level-1', 'Permanent', 'BR001'),
+('Mahbub Alam', 'mahbub.alam@jupyter.com', '56 Khilgaon, Dhaka 1219, Bangladesh', 'MALE', '1987-09-10','0768231749', 'Married', 'EMP000004', 'JT0009', 'Level-2', 'Permanent', 'BR004'),
+('Saba Qamar', 'saba.qamar@jupyter.com', '78 Wapda Town, Lahore 54000, Pakistan', 'MALE', '1993-03-15','0768231749', 'Single', 'EMP000009', 'JT0002', 'Level-1', 'Contract_Fulltime', 'BR007'),
+('Lasith Malinga', 'lasith.malinga@jupyter.com', '90 Galle Face Road, Colombo 01, Sri Lanka', 'MALE', '1989-07-20', '0768231749','Married', 'EMP000001', 'JT0001', 'Level-2', 'Permanent', 'BR001'),
+('Sabina Yasmin', 'sabina.yasmin@jupyter.com', '23 Motijheel, Dhaka 1000, Bangladesh', 'MALE', '1992-11-25', '0768231749','Single', 'EMP000004', 'JT0002', 'Level-1', 'Permanent', 'BR004'),
+('Fawad Khan', 'fawad.khan@jupyter.com', '45 DHA Phase 1, Lahore 54792, Pakistan', 'MALE', '1988-04-30', '0768231749','Married', 'EMP000005', 'JT0003', 'Level-2', 'Permanent', 'BR006'),
+('Sheshadri Priyasad', 'sheshadri.priyasad@jupyter.com', '67 Anuradhapura Road, Polonnaruwa, Sri Lanka', 'FEMALE', '1994-08-05', '0768231749','Single', 'EMP000003', 'JT0004', 'Level-1', 'Intern_Fulltime', 'BR003'),
+('Najmul Hossain', 'najmul.hossain@jupyter.com', '89 Dhanmondi 32, Dhaka 1209, Bangladesh', 'MALE', '1990-12-10','0768231749', 'Married', 'EMP000012', 'JT0005', 'Level-2', 'Permanent', 'BR005'),
+('Hira Mani', 'hira.mani@jupyter.com', '12 Gulshan-e-Iqbal, Karachi 75300, Pakistan', 'MALE', '1991-02-15', '0768231749','Single', 'EMP000013', 'JT0006', 'Level-1', 'Permanent', 'BR006'),
+('Kusal Mendis', 'kusal.mendis@jupyter.com', '34 Ratnapura Road, Embilipitiya, Sri Lanka', 'MALE', '1987-06-20','0768231749', 'Married', 'EMP000007', 'JT0007', 'Level-2', 'Permanent', 'BR001'),
+('Nusrat Imroz', 'nusrat.imroz@jupyter.com', '56 Mirpur DOHS, Dhaka 1216, Bangladesh', 'MALE', '1993-10-25', '0768231749','Single', 'EMP000004', 'JT0008', 'Level-1', 'Contract_Fulltime', 'BR004'),
+('Mahira Khan', 'mahira.khan@jupyter.com', '78 Valencia Town, Lahore 54000, Pakistan', 'MALE', '1989-01-30', '0768231749','Married', 'EMP000009', 'JT0009', 'Level-2', 'Permanent', 'BR007'),
+('Dinesh Chandimal', 'dinesh.chandimal@jupyter.com', '90 Katugastota Road, Kandy, Sri Lanka', 'MALE', '1992-05-05', '0768231749','Single', 'EMP000002', 'JT0007', 'Level-1', 'Permanent', 'BR002');
 
 -- Populate dependant table
 INSERT INTO dependant (name, employee_id, birthday, relation, gender) VALUES
@@ -148,7 +145,6 @@ INSERT INTO dependant (name, employee_id, birthday, relation, gender) VALUES
 ('Sanaya Mendis', 'EMP000047', '2018-10-09', 'Daughter', 'FEMALE'),
 ('Zain Khan', 'EMP000049', '2021-06-28', 'Son', 'MALE');
 
--- Continue with more dependant records
 
 -- Populate employee_attribute table
 INSERT INTO employee_attribute (attribute_name) VALUES
@@ -302,7 +298,6 @@ INSERT INTO attribute_value (employee_id, attribute_id, value) VALUES
 ('EMP000050', 'ATB02', 'Financial Analysis, Risk Assessment'),
 ('EMP000050', 'ATB03', '6 years in Finance');
 
--- Continue with more attribute value records
 
 -- Populate emergency_contact table
 INSERT INTO emergency_contact (employee_id, contact_no, relationship, contact_name) VALUES
@@ -313,7 +308,7 @@ INSERT INTO emergency_contact (employee_id, contact_no, relationship, contact_na
 ('EMP000005', 768394204, 'Parent', 'Ahmed Zahra'),
 ('EMP000006', 774567890, 'Spouse', 'Ranjan Lakmali'),
 ('EMP000007', 775678901, 'Sibling', 'Ishara Pradeep')
--- ('EMP000008', 1823456789, 'Parent', 'Abdul Begum'),
+-- ('EMP000008', 77423913, 'Parent', 'Abdul Begum'),
 -- ('EMP000009', 3112345678, 'Spouse', 'Fatima Imran'),
 -- ('EMP000010', 776789012, 'Parent', 'Kumari Nisansala'),
 -- ('EMP000011', 777890123, 'Sibling', 'Chamara Gurusinha'),
@@ -358,7 +353,6 @@ INSERT INTO emergency_contact (employee_id, contact_no, relationship, contact_na
 -- ('EMP000050', 772345678, 'Spouse', 'Mihiri Chandimal')
 ;
 
--- Continue with more emergency contact records
 
 -- Populate leaves table
 INSERT INTO leaves (start_date, end_date, leave_type, employee_id, leave_status, reason) VALUES
@@ -373,61 +367,10 @@ INSERT INTO leaves (start_date, end_date, leave_type, employee_id, leave_status,
 ('2024-12-25', '2024-12-26', 'Annual', 'EMP000009', 'Approved', 'Christmas holidays'),
 ('2025-01-10', '2025-01-10', 'Casual', 'EMP000010', 'Pending', 'Visa appointment');
 
--- Continue with more leave records
-
 -- Populate organization table
 INSERT INTO organization (id, name, reg_no, main_branch, ceo) VALUES
 (1, 'Jupyter Apparel', 'REG12345', 'BR001', 'EMP000001');
 
 -- Populate user table
 INSERT INTO user (employee_id, username, password, role) VALUES
-('EMP000001', 'dimuth.hasaranga', SHA2('password123', 256), 'Admin'),
-('EMP000002', 'tenil.rukshan', SHA2('password456', 256), 'Employee_lvl2'),
-('EMP000003', 'nethmi.oshadi', SHA2('password789', 256), 'Manager'),
-('EMP000004', 'rahul.karim', SHA2('passwordabc', 256), 'Manager'),
-('EMP000005', 'fatima.zahra', SHA2('passworddef', 256), 'Manager'),
-('EMP000006', 'chamathka.lakmali', SHA2('passwordghi', 256), 'Employee_lvl2'),
-('EMP000007', 'nuwan.pradeep', SHA2('passwordjkl', 256), 'Manager'),
-('EMP000008', 'ayesha.begum', SHA2('passwordmno', 256), 'Employee_lvl1'),
-('EMP000009', 'muhammad.imran', SHA2('passwordpqr', 256), 'Employee_lvl2'),
-('EMP000010', 'sachini.nisansala', SHA2('passwordstu', 256), 'Employee_lvl1'),
-('EMP000011', 'asanka.gurusinha', SHA2('passwordvwx', 256), 'Employee_lvl1'),
-('EMP000012', 'nusrat.jahan', SHA2('passwordyz1', 256), 'Employee_lvl2'),
-('EMP000013', 'ahmed.raza', SHA2('password234', 256), 'Employee_lvl2'),
-('EMP000014', 'ramani.perera', SHA2('password567', 256), 'Employee_lvl1'),
-('EMP000015', 'farhan.ahmed', SHA2('password890', 256), 'Employee_lvl2'),
-('EMP000016', 'sana.malik', SHA2('passwordabc', 256), 'Employee_lvl1'),
-('EMP000017', 'dilshan.fernando', SHA2('passworddef', 256), 'Employee_lvl2'),
-('EMP000018', 'tahmina.akter', SHA2('passwordghi', 256), 'Employee_lvl1'),
-('EMP000019', 'usman.tariq', SHA2('passwordjkl', 256), 'Employee_lvl2'),
-('EMP000020', 'ishara.madushani', SHA2('passwordmno', 256), 'Employee_lvl1'),
-('EMP000021', 'zubair.hasan', SHA2('passwordpqr', 256), 'Employee_lvl2'),
-('EMP000022', 'amna.riaz', SHA2('passwordstu', 256), 'Employee_lvl1'),
-('EMP000023', 'chaminda.vaas', SHA2('passwordvwx', 256), 'Employee_lvl2'),
-('EMP000024', 'nasreen.akhtar', SHA2('passwordyz2', 256), 'Employee_lvl1'),
-('EMP000025', 'imran.butt', SHA2('password345', 256), 'Employee_lvl2'),
-('EMP000026', 'nilushi.cooray', SHA2('password678', 256), 'Employee_lvl1'),
-('EMP000027', 'rahim.uddin', SHA2('password901', 256), 'Employee_lvl2'),
-('EMP000028', 'sadia.nawaz', SHA2('passwordbcd', 256), 'Employee_lvl1'),
-('EMP000029', 'tharanga.paranavitana', SHA2('passwordefg', 256), 'Employee_lvl2'),
-('EMP000030', 'farhana.islam', SHA2('passwordhij', 256), 'Employee_lvl1'),
-('EMP000031', 'yasir.shah', SHA2('passwordklm', 256), 'Employee_lvl2'),
-('EMP000032', 'sanduni.abeywickrama', SHA2('passwordnop', 256), 'Employee_lvl1'),
-('EMP000033', 'kamal.hossain', SHA2('passwordqrs', 256), 'Employee_lvl2'),
-('EMP000034', 'asma.khalid', SHA2('passwordtuv', 256), 'Employee_lvl1'),
-('EMP000035', 'rangana.herath', SHA2('passwordwxy', 256), 'Employee_lvl2'),
-('EMP000036', 'shabnam.akter', SHA2('passwordz12', 256), 'Employee_lvl1'),
-('EMP000037', 'saad.ahmed', SHA2('password456', 256), 'Employee_lvl2'),
-('EMP000038', 'hansini.edirisinghe', SHA2('password789', 256), 'Employee_lvl1'),
-('EMP000039', 'mahbub.alam', SHA2('password012', 256), 'Employee_lvl2'),
-('EMP000040', 'saba.qamar', SHA2('passwordcde', 256), 'Employee_lvl1'),
-('EMP000041', 'lasith.malinga', SHA2('passwordfgh', 256), 'Employee_lvl2'),
-('EMP000042', 'sabina.yasmin', SHA2('passwordijk', 256), 'Employee_lvl1'),
-('EMP000043', 'fawad.khan', SHA2('passwordlmn', 256), 'Employee_lvl2'),
-('EMP000044', 'sheshadri.priyasad', SHA2('passwordopq', 256), 'Employee_lvl1'),
-('EMP000045', 'najmul.hossain', SHA2('passwordrst', 256), 'Employee_lvl2'),
-('EMP000046', 'hira.mani', SHA2('passworduvw', 256), 'Employee_lvl1'),
-('EMP000047', 'kusal.mendis', SHA2('passwordxyz', 256), 'Employee_lvl2'),
-('EMP000048', 'nusrat.imroz', SHA2('password123', 256), 'Employee_lvl1'),
-('EMP000049', 'mahira.khan', SHA2('password234', 256), 'Employee_lvl2'),
-('EMP000050', 'dinesh.chandimal', SHA2('password345', 256), 'Employee_lvl1');
+('EMP000001', 'user1','$2b$10$m9u0KC.G8pRlegdEm9QTuuahkYbP0E.asTKfo4SnkB.O0byxgmxTy',  'Admin');

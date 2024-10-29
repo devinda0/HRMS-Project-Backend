@@ -147,6 +147,42 @@ const addNewEmergencyContact = async (emergencyContact) => {
     return rows[0];
 }
 
+const getCustomAttributes = async () => {
+    const query = `CALL GET_CUSTOM_ATTRIBUTE()`;
+    const [rows] = await db.query(query);
+    return rows[0];
+}
+
+const addCustomAttribute = async (attribute) => {
+    const query = `CALL ADD_CUSTOM_ATTRIBUTE(?)`;
+    const [rows] = await db.query(query, [attribute.attribute_name]);
+    return rows[0];
+}
+
+const deleteCustomAttribute = async (attributeId) => {
+    const query = `CALL DELETE_CUSTOM_ATTRIBUTE(?)`;
+    const [rows] = await db.query(query, [attributeId]);
+    return rows[0];
+}
+
+const getEmployeeCustomAttributes = async (employeeId) => {
+    const query = `CALL GET_EMPLOYEE_ATTRIBUTE_BY_EMPLOYEE_ID(?)`;
+    const [rows] = await db.query(query, [employeeId]);
+    return rows[0];
+}
+
+const deleteEmployeeCustomAttributes = async (employeeId) => {
+    const query = `CALL DELETE_EMPLOYEE_ATTRIBUTE(?)`;
+    const [rows] = await db.query(query, [employeeId]);
+    return rows[0];
+}
+
+const updateEmployeeCustomAttributes = async (employeeId, customAttributes) => {
+    const query = `CALL UPDATE_EMPLOYEE_ATTRIBUTE(?,?)`;
+    const [rows] = await db.query(query, [employeeId, customAttributes]);
+    return rows[0];
+}
+
 module.exports = {
     getAllEmployees,
     getEmployeeCount,
@@ -164,4 +200,10 @@ module.exports = {
     addNewEmployee,
     addNewDependant,
     addNewEmergencyContact,
+    getCustomAttributes,
+    addCustomAttribute,
+    deleteCustomAttribute,
+    getEmployeeCustomAttributes,
+    deleteEmployeeCustomAttributes,
+    updateEmployeeCustomAttributes,
 };

@@ -1,3 +1,4 @@
+const { json } = require('express');
 const Employee = require('../models/employeeModel');
 
 const getAllEmployees = async (req, res) => {
@@ -368,6 +369,112 @@ const addNewEmergencyContact = async (req, res) => {
     }
 }
 
+const getCustomAttributes = async (req, res) => {
+    try {
+        const customAttributes = await Employee.getCustomAttributes();
+        return res.status(200).json(customAttributes);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: error.message });
+    }
+}
+
+const addCustomAttribute = async (req, res) => {
+    const attribute = req.body;
+
+    if(!attribute.attribute_name || attribute.attribute_name === '') {
+        return res.status(400).json({ message: 'Name is required' });
+    }
+
+    try {
+
+        const customAttributes = await Employee.getCustomAttributes();
+        const attributeExists = customAttributes.find(attr => attr.attribute_name === attribute.attribute_name);
+        
+        if(attributeExists) {
+            return res.status(400).json({ message: 'Attribute already exists' });
+        }
+
+        if(customAttributes.length >= 4) {
+            return res.status(400).json({ message: 'Maximum of 4 custom attributes only' });
+        }
+
+        const newAttribute = await Employee.addCustomAttribute(attribute);
+        return res.status(200).json(newAttribute);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: error.message });
+    }
+}
+
+const deleteCustomAttribute = async (req, res) => {
+    const attributeId = req.params.id;
+
+    if(!attributeId || attributeId === '') {
+        return res.status(400).json({ message: 'Attribute ID is required' });
+    }
+
+    try {
+        const deletedAttribute = await Employee.deleteCustomAttribute(attributeId);
+        return res.status(200).json(deletedAttribute);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: error.message });
+    }
+}
+
+const getEmployeeCustomAttributes = async (req, res) => {
+    const employeeId = req.params.id;
+
+    if(!employeeId || employeeId === '') {
+        return res.status(400).json({ message: 'Employee ID is required' });
+    }
+
+    try {
+        const customAttributes = await Employee.getEmployeeCustomAttributes(employeeId);
+        return res.status(200).json(customAttributes);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: error.message });
+    }
+}
+
+const updateEmployeeCustomAttributes = async (req, res) => {
+    const employeeId = req.params.id;
+    const customAttributes = req.body;
+    console.log(customAttributes);
+
+    if(!employeeId || employeeId === '') {
+        return res.status(400).json({ message: 'Employee ID is required' });
+    }
+
+    if(!customAttributes || customAttributes.length === 0) {
+        return res.status(400).json({ message: 'Custom Attributes is required' });
+    }
+
+    try {
+        const attributes = await Employee.getCustomAttributes();
+
+
+
+        const newAttributes = attributes.map(attr => {
+            if(customAttributes[attr.attribute_name]) {
+                return {
+                    attribute_id: attr.attribute_id,
+                    attribute_name: attr.attribute_name,
+                    value: customAttributes[attr.attribute_name]
+                }
+            } 
+        });
+        const addedAttributes = await Employee.updateEmployeeCustomAttributes(employeeId, JSON.stringify(newAttributes));
+        return res.status(200).json(addedAttributes);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: error.message });
+    }
+}
+
+
 module.exports = {
     getAllEmployees,
     getEmployeeCount,
@@ -384,5 +491,10 @@ module.exports = {
     deleteEmergencyContact,
     addNewEmployee,
     addNewDependant,
-    addNewEmergencyContact
+    addNewEmergencyContact,
+    getCustomAttributes,
+    addCustomAttribute,
+    deleteCustomAttribute,
+    getEmployeeCustomAttributes,
+    updateEmployeeCustomAttributes,
 };

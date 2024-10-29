@@ -19,5 +19,10 @@ route.delete('/emergency-contacts/:employee_id/:contact_no', employeeController.
 route.post('/employees', employeeController.addNewEmployee);
 route.post('/dependants', employeeController.addNewDependant);
 route.post('/emergency-contacts', employeeController.addNewEmergencyContact);
+route.get('/custom-attributes', employeeController.getCustomAttributes);
+route.post('/custom-attributes', employeeController.addCustomAttribute);
+route.delete('/custom-attributes/:id', employeeController.deleteCustomAttribute);
+route.get('/employees/:id/custom-attributes', employeeController.getEmployeeCustomAttributes);
+route.put('/employees/:id/custom-attributes', employeeController.updateEmployeeCustomAttributes);
 
 module.exports = route;
