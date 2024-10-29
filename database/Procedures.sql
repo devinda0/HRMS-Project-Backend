@@ -393,14 +393,16 @@ DELIMITER //
     CREATE PROCEDURE ADD_EMPLOYEE(
         IN name VARCHAR(100),
         IN email VARCHAR(100),
-        address VARCHAR(255),
-        birthday DATE,
-        marital_status ENUM('Married', 'Single', 'Divorced'),
-        supervisor CHAR(9),
-        job_title_id CHAR(6),
-        pay_grade VARCHAR(100),
-        employment_status ENUM('Intern_Fulltime', 'Intern_Parttime', 'Contract_Fulltime', 'Contract_Parttime', 'Permanent', 'Freelance'),
-        branch_id CHAR(5)
+        IN address VARCHAR(255),
+        IN gender ENUM('MALE', 'FEMALE'),
+        IN birthday DATE,
+        IN phone CHAR(10),
+        IN marital_status ENUM('Married', 'Single', 'Divorced'),
+        IN supervisor CHAR(9),
+        IN job_title_id CHAR(6),
+        IN pay_grade VARCHAR(100),
+        IN employment_status ENUM('Intern_Fulltime', 'Intern_Parttime', 'Contract_Fulltime', 'Contract_Parttime', 'Permanent', 'Freelance'),
+        IN branch_id CHAR(5)
     )
     BEGIN
         DECLARE EXIT HANDLER FOR SQLEXCEPTION
@@ -412,8 +414,8 @@ DELIMITER //
         START TRANSACTION;
 
 
-            INSERT INTO employee (name, email, address, birthday, marital_status, supervisor, job_title_id, pay_grade, employment_status, branch_id) VALUES
-                (name, email, address, birthday, marital_status, supervisor, job_title_id, pay_grade, employment_status, branch_id);
+            INSERT INTO employee (name, email, address, gender, birthday, phone, marital_status, supervisor, job_title_id, pay_grade, employment_status, branch_id) VALUES
+                (name, email, address, gender, birthday, phone, marital_status, supervisor, job_title_id, pay_grade, employment_status, branch_id);
 
         COMMIT;
     END;
@@ -459,11 +461,12 @@ DELIMITER ;
 -- PROCEDURE FOR UPDATE EMPLOYEE BY ID
 DELIMITER //
     CREATE PROCEDURE UPDATE_EMPLOYEE_BY_ID(
-        IN employee_id CHAR(9),
         IN name VARCHAR(100),
         IN email VARCHAR(100),
         IN address VARCHAR(255),
+        IN gender ENUM('MALE', 'FEMALE'),
         IN birthday DATE,
+        IN phone CHAR(10),
         IN marital_status ENUM('Married', 'Single', 'Divorced'),
         IN supervisor CHAR(9),
         IN job_title_id CHAR(6),
@@ -484,7 +487,9 @@ DELIMITER //
                 employee.name = name,
                 employee.email = email,
                 employee.address = address,
+                employee.gender = gender,
                 employee.birthday = birthday,
+                employee.phone = phone,
                 employee.marital_status = marital_status,
                 employee.supervisor = supervisor,
                 employee.job_title_id = job_title_id,
@@ -625,13 +630,15 @@ DELIMITER //
 DELIMITER ;
 
 -- PROCEDURE FOR UPDATING EMPLOYEE ATTRIBUTE BY EMPLOYEE ID
-DELIMITER // 
+DELIMITER //
     CREATE PROCEDURE UPDATE_EMPLOYEE_ATTRIBUTE(
         IN employee_id CHAR(9),
-        IN attribute_id CHAR(5),
-        IN value VARCHAR(255)
+        IN attributes JSON
     )
     BEGIN
+        DECLARE attribute_id CHAR(5);
+        DECLARE value VARCHAR(255);
+
         DECLARE EXIT HANDLER FOR SQLEXCEPTION
         BEGIN
             ROLLBACK;
@@ -640,7 +647,17 @@ DELIMITER //
 
         START TRANSACTION;
 
-            UPDATE attribute_value SET attribute_value.value = value WHERE attribute_value.employee_id = employee_id AND attribute_value.attribute_id = attribute_id;
+            DELETE FROM attribute_value WHERE attribute_value.employee_id = employee_id;
+
+            WHILE JSON_LENGTH(attributes) > 0 DO
+                SET attribute_id = JSON_UNQUOTE(JSON_EXTRACT(attributes, '$[0].attribute_id'));
+                SET value = JSON_UNQUOTE(JSON_EXTRACT(attributes, '$[0].value'));
+
+                INSERT INTO attribute_value (employee_id, attribute_id, value) VALUES
+                    (employee_id, attribute_id, value);
+
+                SET attributes = JSON_REMOVE(attributes, '$[0]');
+            END WHILE;
         
         COMMIT;
     END;

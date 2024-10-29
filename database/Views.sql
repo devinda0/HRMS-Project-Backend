@@ -10,9 +10,12 @@ CREATE VIEW supervisor_subordinate AS
 CREATE VIEW employee_details AS
     SELECT 
         e.employee_id, 
-        e.name, e.email, 
-        e.address, 
-        e.birthday, 
+        e.name,
+        e.email, 
+        e.address,
+        e.gender, 
+        e.birthday,
+        e.phone, 
         e.marital_status, 
         e.supervisor, 
         e.pay_grade, 
