@@ -56,13 +56,24 @@ The **HRMS Project Backend** is the server-side component of the Human Resource 
    
    Create a `.env` file in the root directory and add the following:
    ```env
+   # Server Port
    PORT=8080
-   ACCESS_TOKEN_SECRET=your_secret_key
-   DB_HOST=localhost
-   DB_USER=your_db_user
-   DB_PASSWORD=your_db_password
-   DB_NAME=hrms
-   DB_PORT=3306
+   
+   # Database Configuration
+   DB_HOST=your_database_host
+   DB_USER=your_database_user
+   DB_PASSWORD=your_database_password
+   DB_NAME=your_database_name
+   
+   # Mail Server Configuration
+   MAIL_HOST=your_mail_host
+   MAIL_PORT=your_mail_port
+   MAIL_USER=your_email_address
+   MAIL_PASSWORD=your_email_password
+   
+   # Authentication Secrets
+   ACCESS_TOKEN_SECRET=your_access_token_secret
+   REFRESH_TOKEN_SECRET=your_refresh_token_secret
    ```
 
 ## Database Setup
