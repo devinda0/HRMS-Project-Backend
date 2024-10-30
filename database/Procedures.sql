@@ -209,6 +209,34 @@ DELIMITER //
 //
 DELIMITER ;
 
+-- PROCEDURE FOR UPDATING USER BY USERNAME
+DELIMITER //
+    CREATE PROCEDURE UPDATE_USER_BY_USERNAME(
+        IN username VARCHAR(100),
+        IN password VARCHAR(100),
+        IN role ENUM('Admin', 'Manager', 'Employee_lvl1', 'Employee_lvl2'),
+        IN employee_id CHAR(9)
+    )
+    BEGIN
+        DECLARE EXIT HANDLER FOR SQLEXCEPTION
+        BEGIN
+            ROLLBACK;
+            RESIGNAL;
+        END;
+
+        START TRANSACTION;
+
+            UPDATE user SET 
+                user.password = password,
+                user.role = role,
+                user.employee_id = employee_id
+            WHERE user.username = username;
+            
+        COMMIT;
+    END;
+//
+DELIMITER ;
+
 
 
 ----------------------------------PROCEDURES FOR Report MODULE--------------------------------------

@@ -1,5 +1,20 @@
 const { json } = require('express');
 const Employee = require('../models/employeeModel');
+const bcrypt = require('bcrypt');
+const mailer = require('../../../config/mailer');
+
+const generatePassword = (length = 10) => {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()';
+    const charactersLength = characters.length;
+
+    let password = '';
+    for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * charactersLength);
+        password += characters[randomIndex];
+    }
+
+    return password;
+}
 
 const getAllEmployees = async (req, res) => {
     const position = req.query?.position || 0;
@@ -473,6 +488,49 @@ const updateEmployeeCustomAttributes = async (req, res) => {
     }
 }
 
+const createUserAccount = async (req, res) => {
+    const newUser = req.body;
+
+    if(!newUser.employee_id || newUser.employee_id === '') {
+        return res.status(400).json({ message: 'Employee ID is required' });
+    }
+
+    if(!newUser.role || newUser.role === '') {
+        return res.status(400).json({ message: 'Role is required' });
+    }
+
+    if(!newUser.username || newUser.username === '') {
+        return res.status(400).json({ message: 'Username is required' });
+    }
+
+    const password = generatePassword();
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    try {
+        const user = await Employee.addNewUserAccount({
+            username: newUser.username,
+            password: hashedPassword,
+            role: newUser.role,
+            employee_id: newUser.employee_id
+        });
+
+        const employee = await Employee.getEmployeeById(newUser.employee_id);
+
+        mailer.sendMail({
+            from: process.env.MAIL_USER,
+            to: employee.email,
+            subject: 'Account Created',
+            text: `Your account has been created. \nUsername: ${newUser.username} \nPassword: ${password}`
+        });
+
+        return res.status(200).json(user);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: error.message });
+    }
+}
+
 
 module.exports = {
     getAllEmployees,
@@ -496,4 +554,5 @@ module.exports = {
     deleteCustomAttribute,
     getEmployeeCustomAttributes,
     updateEmployeeCustomAttributes,
+    createUserAccount
 };

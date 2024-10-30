@@ -1,7 +1,20 @@
 const User = require('../models/userModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const mailer = require('../../../config/mailer');
 
+const generatePassword = (length = 10) => {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()';
+    const charactersLength = characters.length;
+
+    let password = '';
+    for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * charactersLength);
+        password += characters[randomIndex];
+    }
+
+    return password;
+}
 
 const userLogin = async (req, res) => {
     const { username, password } = req.body;
@@ -54,7 +67,9 @@ const refreshToken = (req, res) => {
         const payload = { employee_id: user.employee_id, role: user.role };
 
         const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '10min' });
+        const newRefreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1h' });
 
+        res.cookie('refreshToken', newRefreshToken, { httpOnly: true });
         res.status(200).json({ accessToken });
     });
 };
@@ -426,6 +441,52 @@ const deleteEmergencyContact = async (req, res) => {
     }
 }
 
+const forgetPassword = async (req, res) => {
+    const { username, email } = req.body;
+
+    try {
+        const users = await User.findByUsername(username);
+
+        if (users.length === 0) {
+            return res.status(401).json({ message: 'Invalid username' });
+        }
+
+        const user = users[0];
+
+        const userDetails = await User.getUserDetailsBriefById(user.employee_id);
+
+        if(userDetails.email !== email) {
+            return res.status(401).json({ message: 'Invalid email' });
+        }
+
+        const newPassword = generatePassword();
+
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+        const updatedUser = await User.updateUser({
+            username: user.username,
+            password: hashedPassword,
+            role: user.role,
+            employee_id: user.employee_id
+        })
+
+        console.log(user);
+
+        mailer.sendMail({
+            from: process.env.MAIL_USER,
+            to: email,
+            subject: 'Forget Password',
+            text: `Your new password is ${newPassword}`
+        });
+
+
+        res.status(200).json({ updatedUser });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
 module.exports = {
     userLogin,
     userLogout,
@@ -441,5 +502,6 @@ module.exports = {
     updateEmergencyContact,
     deleteEmergencyContact,
     addEmergencyContact,
-    getDependants
+    getDependants,
+    forgetPassword
 }

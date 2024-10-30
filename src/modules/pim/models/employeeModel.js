@@ -1,4 +1,5 @@
 const db = require('../../../config/db');
+const { use } = require('../../absence');
 
 const getAllEmployees = async (position, recordCount) => {
     const query = `CALL GET_ALL_EMPLOYEES(?,?)`;
@@ -179,6 +180,16 @@ const updateEmployeeCustomAttributes = async (employeeId, customAttributes) => {
     return rows[0];
 }
 
+const addNewUserAccount = async (user) => {
+    const query = `CALL ADD_USER_ACCOUNT(?,?,?,?)`;
+    const [rows] = await db.query(query, [
+        user.username,
+        user.password,
+        user.role,
+        user.employee_id,
+    ]);
+}
+
 module.exports = {
     getAllEmployees,
     getEmployeeCount,
@@ -201,4 +212,5 @@ module.exports = {
     deleteCustomAttribute,
     getEmployeeCustomAttributes,
     updateEmployeeCustomAttributes,
+    addNewUserAccount,
 };

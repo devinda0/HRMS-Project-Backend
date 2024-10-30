@@ -132,6 +132,12 @@ const getUserDetailsBriefById = async (id) => {
     return rows[0][0];
 }
 
+const updateUser = async (user) => {
+    const query = `CALL UPDATE_USER_BY_USERNAME(?,?,?,?)`;
+    const [rows] = await db.query(query, [user.username, user.password, user.role, user.employee_id]);
+    return rows[0];
+}
+
 module.exports = {
     findByUsername,
     updateUserByEmployeeId,
@@ -148,4 +154,5 @@ module.exports = {
     getDependantsByEmployeeId,
     getEmergencyContactsByEmployeeId,
     getUserDetailsBriefById,
+    updateUser
 }
