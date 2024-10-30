@@ -183,6 +183,21 @@ const declineLeave = async (req, res) => {
     }
 }
 
+const checkEmployeeIsSuperVisor = async (req, res) => {
+    const employee_id = req.user.employee_id;
+
+    try {
+        const subordinates = await Absence.getSubordinatesCount(employee_id);
+
+        const isSupervisor = subordinates.length > 0;
+
+        res.status(200).json({ isSupervisor });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
 module.exports = {
     addLeave,
     cancelPendingLeave,
@@ -190,5 +205,6 @@ module.exports = {
     approveLeave,
     declineLeave,
     getLeaveCount,
-    getLeavesByStatus
+    getLeavesByStatus,
+    checkEmployeeIsSuperVisor
 };

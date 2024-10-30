@@ -34,13 +34,15 @@ const getEmergencyContactsByEmployeeId = async (id) => {
 }
 
 const updateEmployee = async (employee) => {
-    const query = `CALL UPDATE_EMPLOYEE_BY_ID(?,?,?,?,?,?,?,?,?,?,?)`;
+    const query = `CALL UPDATE_EMPLOYEE_BY_ID(?,?,?,?,?,?,?,?,?,?,?,?,?)`;
     const [rows] = await db.query(query, [
         employee.employee_id,
         employee.name,
         employee.email,
         employee.address,
+        employee.gender,
         employee.birthday,
+        employee.phone,
         employee.marital_status,
         employee.supervisor,
         employee.job_title_id,
@@ -171,12 +173,6 @@ const getEmployeeCustomAttributes = async (employeeId) => {
     return rows[0];
 }
 
-const deleteEmployeeCustomAttributes = async (employeeId) => {
-    const query = `CALL DELETE_EMPLOYEE_ATTRIBUTE(?)`;
-    const [rows] = await db.query(query, [employeeId]);
-    return rows[0];
-}
-
 const updateEmployeeCustomAttributes = async (employeeId, customAttributes) => {
     const query = `CALL UPDATE_EMPLOYEE_ATTRIBUTE(?,?)`;
     const [rows] = await db.query(query, [employeeId, customAttributes]);
@@ -204,6 +200,5 @@ module.exports = {
     addCustomAttribute,
     deleteCustomAttribute,
     getEmployeeCustomAttributes,
-    deleteEmployeeCustomAttributes,
     updateEmployeeCustomAttributes,
 };

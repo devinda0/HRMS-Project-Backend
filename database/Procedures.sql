@@ -160,6 +160,16 @@ DELIMITER //
 //
 DELIMITER ;
 
+-- STORED PROCEDURE FOR GETTING SUBORDINATE COUNT BY EMPLOYEE ID
+DELIMITER //
+    CREATE PROCEDURE GET_SUBORDINATES_COUNT(
+        IN employee_id CHAR(9)
+    )
+    BEGIN
+        SELECT COUNT(*) AS count FROM employee WHERE employee.supervisor = employee_id;
+    END;
+//
+DELIMITER ;
 
 
 -----------------------------------PROCEDURES FOR USER MODULE--------------------------------------
@@ -458,9 +468,22 @@ DELIMITER //
 //
 DELIMITER ;
 
+DELIMITER //
+    CREATE PROCEDURE GET_EMPLOYEE_BRIEF_BY_ID(
+        IN employee_id CHAR(9)
+    )
+    BEGIN
+        SELECT *
+        FROM employee
+        WHERE employee.employee_id = employee_id;
+    END;
+//
+DELIMITER ;
+
 -- PROCEDURE FOR UPDATE EMPLOYEE BY ID
 DELIMITER //
     CREATE PROCEDURE UPDATE_EMPLOYEE_BY_ID(
+        IN employee_id CHAR(9),
         IN name VARCHAR(100),
         IN email VARCHAR(100),
         IN address VARCHAR(255),
