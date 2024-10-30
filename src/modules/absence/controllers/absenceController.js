@@ -189,7 +189,7 @@ const checkEmployeeIsSuperVisor = async (req, res) => {
     try {
         const subordinates = await Absence.getSubordinatesCount(employee_id);
 
-        const isSupervisor = subordinates.length > 0;
+        const isSupervisor = subordinates[0].count > 0;
 
         res.status(200).json({ isSupervisor });
     } catch (error) {
