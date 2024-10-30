@@ -62,6 +62,13 @@ const getSubordinatesLeaves = async (supervisor_id, status) => {
     return rows[0];
 }
 
+const getSubordinatesCount = async (supervisor_id) => {
+    const query = `CALL GET_SUBORDINATES_COUNT(?)`;
+    const [rows] = await db.query(query, [supervisor_id]);
+
+    return rows[0];
+}
+
 module.exports = {
     addLeave,
     getLeavesByStatus,
@@ -70,5 +77,6 @@ module.exports = {
     getLeaveById,
     deleteLeaveById,
     getLeaveCount,
-    getTotalLeaveCount
+    getTotalLeaveCount,
+    getSubordinatesCount
 }

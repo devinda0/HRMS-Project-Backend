@@ -100,6 +100,8 @@ const updateEmployee = async (req, res) => {
         return res.status(400).json({ message: 'Branch is required' });
     }
 
+    console.log(employee);
+
     try {
         const updatedEmployee = await Employee.updateEmployee(employee);
         return res.status(200).json(updatedEmployee);
@@ -442,7 +444,6 @@ const getEmployeeCustomAttributes = async (req, res) => {
 const updateEmployeeCustomAttributes = async (req, res) => {
     const employeeId = req.params.id;
     const customAttributes = req.body;
-    console.log(customAttributes);
 
     if(!employeeId || employeeId === '') {
         return res.status(400).json({ message: 'Employee ID is required' });
@@ -454,8 +455,6 @@ const updateEmployeeCustomAttributes = async (req, res) => {
 
     try {
         const attributes = await Employee.getCustomAttributes();
-
-
 
         const newAttributes = attributes.map(attr => {
             if(customAttributes[attr.attribute_name]) {

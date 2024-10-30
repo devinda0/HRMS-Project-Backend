@@ -10,5 +10,7 @@ route.put('/leave/cancel/:leave_id', absenceController.cancelPendingLeave);
 route.put('/leave/approve/:leave_id', absenceController.approveLeave);
 route.put('/leave/decline/:leave_id', absenceController.declineLeave);
 route.get('/leaves/subordinates/:leave_status', absenceController.getSubordinatesLeaves);
+route.get('/is_supervisor', absenceController.checkEmployeeIsSuperVisor);
+
 
 module.exports = route;
