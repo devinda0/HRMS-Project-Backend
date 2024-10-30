@@ -24,5 +24,6 @@ route.post('/custom-attributes', employeeController.addCustomAttribute);
 route.delete('/custom-attributes/:id', employeeController.deleteCustomAttribute);
 route.get('/employees/:id/custom-attributes', employeeController.getEmployeeCustomAttributes);
 route.put('/employees/:id/custom-attributes', employeeController.updateEmployeeCustomAttributes);
+route.post('/users', employeeController.createUserAccount);
 
 module.exports = route;

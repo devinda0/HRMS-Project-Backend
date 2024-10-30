@@ -7,6 +7,7 @@ const authorizeToken = require('../../middlewares/authenticateToken')
 router.post('/login', userController.userLogin);
 router.post('/logout', userController.userLogout);
 router.post('/refresh_token', userController.refreshToken);
+router.post('/forgot-password', userController.forgetPassword);
 
 router.use(authorizeToken);
 
