@@ -288,6 +288,14 @@ const addNewEmployee = async (req, res) => {
         return res.status(400).json({ message: 'Address is required' });
     }
 
+    if(!employee.gender || employee.gender === '') {
+        return res.status(400).json({ message: 'Gender is required' });
+    }
+
+    if(!employee.phone || employee.phone === '') {
+        return res.status(400).json({ message: 'Phone is required' });
+    }
+
     if(!employee.birthday || employee.birthday === '') {
         return res.status(400).json({ message: 'Birthday is required' });
     }

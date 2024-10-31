@@ -110,12 +110,14 @@ const deleteEmergencyContact = async (employee_id, contact_no) => {
 }
 
 const addNewEmployee = async (employee) => {
-    const query = `CALL ADD_EMPLOYEE(?,?,?,?,?,?,?,?,?,?)`;
+    const query = `CALL ADD_EMPLOYEE(?,?,?,?,?,?,?,?,?,?,?,?)`;
     const [rows] = await db.query(query, [
         employee.name,
         employee.email,
         employee.address,
+        employee.gender,
         employee.birthday,
+        employee.phone,
         employee.marital_status,
         employee.supervisor,
         employee.job_title_id,
